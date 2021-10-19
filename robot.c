@@ -269,8 +269,8 @@ void robotUpdate(struct SDL_Renderer * renderer, struct Robot * robot){
     int i;
     for (i = 0; i < 5; i++)
     {
-        xDir = round(robotCentreX+(ROBOT_WIDTH/2-2)*cos((robot->angle)*PI/180)-(-ROBOT_HEIGHT/2-SENSOR_VISION+sensor_sensitivity*i)*sin((robot->angle)*PI/180));
-        yDir = round(robotCentreY+(ROBOT_WIDTH/2-2)*sin((robot->angle)*PI/180)+(-ROBOT_HEIGHT/2-SENSOR_VISION+sensor_sensitivity*i)*cos((robot->angle)*PI/180));
+        xDir = round(robotCentreX+(ROBOT_WIDTH/2 - 10)*cos((robot->angle)*PI/180)-(-ROBOT_HEIGHT/2-SENSOR_VISION+sensor_sensitivity*i)*sin((robot->angle)*PI/180));
+        yDir = round(robotCentreY+(ROBOT_WIDTH/2 - 10)*sin((robot->angle)*PI/180)+(-ROBOT_HEIGHT/2-SENSOR_VISION+sensor_sensitivity*i)*cos((robot->angle)*PI/180));
         xTL = (int) xDir;
         yTL = (int) yDir;
 
@@ -280,21 +280,7 @@ void robotUpdate(struct SDL_Renderer * renderer, struct Robot * robot){
         SDL_RenderFillRect(renderer, &rect);
     }
 
-    //Front Left Sensor
-    for (i = 0; i < 5; i++)
-    {
-        xDir = round(robotCentreX+(-ROBOT_WIDTH/2)*cos((robot->angle)*PI/180)-(-ROBOT_HEIGHT/2-SENSOR_VISION+sensor_sensitivity*i)*sin((robot->angle)*PI/180));
-        yDir = round(robotCentreY+(-ROBOT_WIDTH/2)*sin((robot->angle)*PI/180)+(-ROBOT_HEIGHT/2-SENSOR_VISION+sensor_sensitivity*i)*cos((robot->angle)*PI/180));
-        xTL = (int) xDir;
-        yTL = (int) yDir;
-
-        SDL_Rect rect = {xTL, yTL, 2, sensor_sensitivity};
-        SDL_SetRenderDrawColor(renderer, 80+(20*(5-i)), 80+(20*(5-i)), 80+(20*(5-i)), 255);
-        SDL_RenderDrawRect(renderer, &rect);
-        SDL_RenderFillRect(renderer, &rect);
-    }
-
-    // New sensor 1 Left
+    // Front Left Diag Sensor
     for (i = 0; i < 5; i++)
     {
         xDir = round(robotCentreX+(-ROBOT_WIDTH/2 + 10)*cos((robot->angle - 45)*(PI)/180)-(-ROBOT_HEIGHT/2-SENSOR_VISION+sensor_sensitivity*i)*sin((robot->angle- 45)*PI/180));
@@ -308,7 +294,7 @@ void robotUpdate(struct SDL_Renderer * renderer, struct Robot * robot){
         SDL_RenderFillRect(renderer, &rect);
     }
 
-    // New sensor 2 Right
+    // Front Right Diag Sensor
     for (i = 0; i < 5; i++)
     {
         xDir = round(robotCentreX+(ROBOT_WIDTH/2 - 10)*cos((robot->angle + 45)*PI/180)-(-ROBOT_HEIGHT/2-SENSOR_VISION+sensor_sensitivity*i)*sin((robot->angle+45)*PI/180));
@@ -359,22 +345,22 @@ void robotMotorMove(struct Robot * robot) {
     robot->y = (int) y_offset;
 }
 
-void robotAutoMotorMove(struct Robot * robot, int front_left_sensor, int front_right_sensor) {
+void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_right__diagonal_sensor, int front_left_diagonal_sensor) {
 
-    if ((front_left_sensor == 0) && (front_right_sensor == 0)) {
-        if (robot->currentSpeed<2)
-            robot->direction = UP;
-    }
-    else if ((robot->currentSpeed>0) && ((front_left_sensor == 1) || (front_right_sensor == 1)) ) {
-        robot->direction = DOWN;
-    }
-    else if ((robot->currentSpeed==0) && ((front_left_sensor == 1) || (front_right_sensor == 1)) ) {
-        robot->direction = LEFT;
-    }
-    else if ((robot->currentSpeed==0) && ((front_left_sensor == 1) || (front_right_sensor == 0)) ) {
-        robot->direction = RIGHT;
-    }
-    else if ((robot->currentSpeed==0) && ((front_left_sensor == 0) || (front_right_sensor == 1)) ) {
-        robot->direction = RIGHT;
-    }
+//    if ((front_left_sensor == 0) && (front_right_sensor == 0)) {
+//        if (robot->currentSpeed<2)
+//            robot->direction = UP;
+//    }
+//    else if ((robot->currentSpeed>0) && ((front_left_sensor == 1) || (front_right_sensor == 1)) ) {
+//        robot->direction = DOWN;
+//    }
+//    else if ((robot->currentSpeed==0) && ((front_left_sensor == 1) || (front_right_sensor == 1)) ) {
+//        robot->direction = LEFT;
+//    }
+//    else if ((robot->currentSpeed==0) && ((front_left_sensor == 1) || (front_right_sensor == 0)) ) {
+//        robot->direction = RIGHT;
+//    }
+//    else if ((robot->currentSpeed==0) && ((front_left_sensor == 0) || (front_right_sensor == 1)) ) {
+//        robot->direction = RIGHT;
+//    }
 }
