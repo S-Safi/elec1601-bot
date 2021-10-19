@@ -76,7 +76,7 @@ int main(int argc, char *argv[]) {
 
             front_right_sensor = checkRobotSensorFrontRightAllWalls(&robot, head);
             if (front_right_sensor>0)
-                printf("Getting close on the right. Score = %d\n", front_right_sensor);
+                printf("Getting close on the front. Score = %d\n", front_right_sensor);
 
             front_right_diagonal_sensor = checkRobotSensorFrontRightDiagonalAllWalls(&robot, head);
             if (front_right_diagonal_sensor>0)
