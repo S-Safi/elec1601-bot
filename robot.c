@@ -389,17 +389,21 @@ void robotMotorMove(struct Robot * robot) {
 
 void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_right__diagonal_sensor, int front_left_diagonal_sensor) {
 
+    if(front_left_diagonal_sensor == 1 && front_right_sensor == 0 && front_right__diagonal_sensor == 0) {
+        robot->currentSpeed = 10;
+    }
+
     if(front_right_sensor > 0 || front_left_diagonal_sensor > 2) {
-        robot->angle = (robot->angle+15)%360;
+        robot->angle = (robot->angle+20)%360;
+        robot->currentSpeed = 7;
     }
 
     if ((front_right_sensor == 0 && front_left_diagonal_sensor == 0)) {
         if (robot->currentSpeed<2) {
-
-
-            robot->currentSpeed = 6;
+            robot->currentSpeed = 8;
         }
-        robot->angle = (robot->angle-5)%360;
+        robot->angle = (robot->angle-10)%360;
+        robot->currentSpeed = 8;
         //robot->direction = LEFT;
 
     }
