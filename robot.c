@@ -388,23 +388,30 @@ void robotMotorMove(struct Robot * robot) {
 }
 
 void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_right__diagonal_sensor, int front_left_diagonal_sensor) {
+    // Might need to tone down speeds and turns for it to be "road legal" ok these dont work anymore but idk
+    // 17,3,8
+    // 13,4,8
 
+    // Zoom if on a straight
     if(front_left_diagonal_sensor == 1 && front_right_sensor == 0 && front_right__diagonal_sensor == 0) {
         robot->currentSpeed = 13;
     }
 
+    // Turn right and slow down
     if(front_right_sensor > 0 || front_left_diagonal_sensor > 2) {
-            // I think this is the legal speed limit for turning bro
-        robot->angle = (robot->angle+25)%360;
-        robot->currentSpeed = 7;
+
+        robot->angle = (robot->angle+DEFAULT_ANGLE_CHANGE)%360;
+
+        robot->currentSpeed = 4;
     }
 
+    // Turn left and slow down but not as much
     if ((front_right_sensor == 0 && front_left_diagonal_sensor == 0)) {
         if (robot->currentSpeed<2) {
             robot->currentSpeed = 8;
         }
-        robot->angle = (robot->angle-10)%360;
-        robot->currentSpeed = 8;
+        robot->angle = (robot->angle-DEFAULT_ANGLE_CHANGE)%360;
+        robot->currentSpeed = 10;
         //robot->direction = LEFT;
 
     }
@@ -413,6 +420,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
 //        robot->angle = 0;
 //    }
 
+    // Turn right if getting too close on left
     if(front_left_diagonal_sensor == 2) {
         robot->direction = RIGHT;
     }
