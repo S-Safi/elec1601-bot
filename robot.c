@@ -390,11 +390,12 @@ void robotMotorMove(struct Robot * robot) {
 void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_right__diagonal_sensor, int front_left_diagonal_sensor) {
 
     if(front_left_diagonal_sensor == 1 && front_right_sensor == 0 && front_right__diagonal_sensor == 0) {
-        robot->currentSpeed = 10;
+        robot->currentSpeed = 13;
     }
 
     if(front_right_sensor > 0 || front_left_diagonal_sensor > 2) {
-        robot->angle = (robot->angle+20)%360;
+            // I think this is the legal speed limit for turning bro
+        robot->angle = (robot->angle+25)%360;
         robot->currentSpeed = 7;
     }
 
