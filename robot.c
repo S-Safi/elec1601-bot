@@ -391,6 +391,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
     // Might need to tone down speeds and turns for it to be "road legal" ok these dont work anymore but idk
     // 17,3,8
     // 13,4,8
+    // NEED TO INCREMENT SPEEDS FOR IT TO BE LEGAL
 
     // Zoom if on a straight
     if(front_left_diagonal_sensor == 1 && front_right_sensor == 0 && front_right__diagonal_sensor == 0) {
