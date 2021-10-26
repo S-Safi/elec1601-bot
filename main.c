@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
     clock_t start_time, end_time;
     int msec;
 
-    int mazeOpt = 0;
+    int mazeOpt = 1;
 
     if(mazeOpt == 0) {
         insertAndSetFirstWall(&head, 1,  OVERALL_WINDOW_WIDTH/2, OVERALL_WINDOW_HEIGHT/2, 10, OVERALL_WINDOW_HEIGHT/2);
@@ -74,7 +74,55 @@ int main(int argc, char *argv[]) {
         insertAndSetFirstWall(&head, 26,  OVERALL_WINDOW_WIDTH/2+310, OVERALL_WINDOW_HEIGHT/2-85, 10, OVERALL_WINDOW_HEIGHT/7);
         insertAndSetFirstWall(&head, 27,  OVERALL_WINDOW_WIDTH/2+250, OVERALL_WINDOW_HEIGHT/2-85, OVERALL_WINDOW_HEIGHT/7, 10);
         insertAndSetFirstWall(&head, 28,  OVERALL_WINDOW_WIDTH/2+310, OVERALL_WINDOW_HEIGHT/2-15, 10, OVERALL_WINDOW_HEIGHT/1.05);
+    } else if(mazeOpt == 2) {
+        // Maze Design 2
 
+            int gap_width = 100;
+        int centreX = OVERALL_WINDOW_WIDTH/2;   //These integers determine the position of the
+        int centreY = OVERALL_WINDOW_HEIGHT/2;  //centre of the circle
+        float wallWidth = 5;
+        float resolution = 0.07;  //lower values give greater resolution, any less than 0.000001 requires at minimum 32Gb ram
+
+        //spawn tube
+        insertAndSetFirstWall(&head, 1, 30, 183, 5, 300);
+        insertAndSetFirstWall(&head, 1, 107, 290, 5, 300);
+        insertAndSetFirstWall(&head, 1, 30, 183, 80, 5);
+
+        float radius = 220;
+        for(float x = -radius; x <= radius; x+=resolution) {
+            //outer circle
+            if (x >= -radius + 7.5) {
+                insertAndSetFirstWall(&head, x, centreX + x, centreY - sqrt(radius*radius - x*x),wallWidth, wallWidth);
+                insertAndSetFirstWall(&head, radius+x, centreX + x, centreY + sqrt(radius*radius - x*x), wallWidth, wallWidth);
+            }
+            //diagonal lines
+            if (x>12 && x<95) {
+                insertAndSetFirstWall(&head, x, centreX+100+x, centreY-35-x/1.5, 5, 5);
+            }
+            if (x>-60 && x<60) {
+                insertAndSetFirstWall(&head, x, centreX+50+x, centreY-80+x/1.5, 5, 5);
+            }
+            if (x>-60 && x<60) {
+                insertAndSetFirstWall(&head, x, centreX+50+x, centreY+x/1.5, 5, 5);
+            }
+            if (x>5 && x<40) {
+                insertAndSetFirstWall(&head, x, centreX+80+x, centreY-130-x/0.8, 5, 5);
+            }
+            if (x>-65 && x<-50) {
+                insertAndSetFirstWall(&head, x, centreX+40+x, centreY-290-x/0.2, 5, 5);
+            }
+        }
+
+        //internal circle section
+        radius -= gap_width;
+        for(float x = -radius; x <= radius; x+=resolution) {
+            if (x <= radius - 7.5) {
+                if (x <= radius - 130) {
+                    insertAndSetFirstWall(&head, x, centreX + x, centreY - sqrt(radius*radius - x*x),wallWidth, wallWidth);
+                }
+                insertAndSetFirstWall(&head, radius+x, centreX + x, centreY + sqrt(radius*radius - x*x), wallWidth, wallWidth);
+            }
+        }
     }
 
     // SETUP MAZE
