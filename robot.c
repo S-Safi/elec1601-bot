@@ -216,7 +216,7 @@ void robotUpdate(struct SDL_Renderer * renderer, struct Robot * robot){
     int robotCentreX, robotCentreY, xTR, yTR, xTL, yTL, xBR, yBR, xBL, yBL;
     SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
 
-    /*
+
     //Other Display options:
     // The actual square which the robot is tested against (not so nice visually with turns, but easier
     // to test overlap
@@ -224,7 +224,7 @@ void robotUpdate(struct SDL_Renderer * renderer, struct Robot * robot){
     SDL_SetRenderDrawColor(renderer, 80, 80, 80, 255);
     SDL_RenderDrawRect(renderer, &rect);
     SDL_RenderFillRect(renderer, &rect);
-    */
+
     /*
     //Center Line of Robot. Line shows the direction robot is facing
     xDir = -30 * sin(-robot->angle*PI/180);
@@ -394,26 +394,42 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
     // NEED TO INCREMENT SPEEDS FOR IT TO BE LEGAL
 
     // Zoom if on a straight
-    if(front_left_diagonal_sensor == 1 && front_right_sensor == 0 && front_right__diagonal_sensor == 0) {
-        robot->currentSpeed = 13;
+    if((front_left_diagonal_sensor == 2 && front_right_sensor == 0 && front_right__diagonal_sensor == 0) || (front_left_diagonal_sensor == 1 && front_right_sensor == 0 && front_right__diagonal_sensor == 0)) {
+        //robot->currentSpeed = 13;
+        if(robot->currentSpeed < 8) {
+            robot->currentSpeed += DEFAULT_SPEED_CHANGE;
+        } else {
+            robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+        }
     }
 
     // Turn right and slow down
     if(front_right_sensor > 0 || front_left_diagonal_sensor > 2) {
 
-        robot->angle = (robot->angle+DEFAULT_ANGLE_CHANGE)%360;
+        //robot->angle = (robot->angle+DEFAULT_ANGLE_CHANGE)%360;
+        robot->direction = RIGHT;
+        //robot->currentSpeed = 3;
+        if(robot->currentSpeed > 3) {
+            robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+        } else {
+            robot->currentSpeed += DEFAULT_SPEED_CHANGE;
+        }
 
-        robot->currentSpeed = 4;
     }
 
     // Turn left and slow down but not as much
     if ((front_right_sensor == 0 && front_left_diagonal_sensor == 0)) {
-        if (robot->currentSpeed<2) {
-            robot->currentSpeed = 8;
+        if (robot->currentSpeed < 2) {
+            robot->currentSpeed += DEFAULT_SPEED_CHANGE;
         }
-        robot->angle = (robot->angle-DEFAULT_ANGLE_CHANGE)%360;
-        robot->currentSpeed = 10;
-        //robot->direction = LEFT;
+        //robot->angle = (robot->angle-DEFAULT_ANGLE_CHANGE)%360;
+        if(robot->currentSpeed < 10) {
+            robot->currentSpeed += DEFAULT_SPEED_CHANGE;
+        } else {
+            robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+        }
+        //robot->currentSpeed = 10;
+        robot->direction = LEFT;
 
     }
 
@@ -422,7 +438,10 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
 //    }
 
     // Turn right if getting too close on left
-    if(front_left_diagonal_sensor == 2) {
+    if(front_left_diagonal_sensor == 1) {
+        if(robot->currentSpeed < 8) {
+            robot->currentSpeed += DEFAULT_SPEED_CHANGE;
+        }
         robot->direction = RIGHT;
     }
 
