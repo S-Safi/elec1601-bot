@@ -1,14 +1,27 @@
 #include "robot.h"
 
 void setup_robot(struct Robot *robot){
-    robot->x = OVERALL_WINDOW_WIDTH/2-50;
-    robot->y = OVERALL_WINDOW_HEIGHT-50;
-    robot->true_x = OVERALL_WINDOW_WIDTH/2-50;
-    robot->true_y = OVERALL_WINDOW_HEIGHT-50;
-    robot->width = ROBOT_WIDTH;
-    robot->height = ROBOT_HEIGHT;
-    robot->direction = 0;
-    robot->angle = 0;
+    int mazeOpt = 0;
+    if(mazeOpt == 0) {
+       robot->x = OVERALL_WINDOW_WIDTH/2-50;
+        robot->y = OVERALL_WINDOW_HEIGHT-50;
+        robot->true_x = OVERALL_WINDOW_WIDTH/2-50;
+        robot->true_y = OVERALL_WINDOW_HEIGHT-50;
+        robot->width = ROBOT_WIDTH;
+        robot->height = ROBOT_HEIGHT;
+        robot->direction = 0;
+        robot->angle = 0;
+    } else if(mazeOpt == 1) {
+        robot->x = OVERALL_WINDOW_WIDTH/2-50;
+        robot->y = OVERALL_WINDOW_HEIGHT-50;
+        robot->true_x = OVERALL_WINDOW_WIDTH/2-190;
+        robot->true_y = OVERALL_WINDOW_HEIGHT-50;
+        robot->width = ROBOT_WIDTH;
+        robot->height = ROBOT_HEIGHT;
+        robot->direction = 0;
+        robot->angle = 0;
+    }
+
     robot->currentSpeed = 0;
     robot->crashed = 0;
     robot->auto_mode = 0;
@@ -111,7 +124,7 @@ int checkRobotSensorFrontRightAllWalls(struct Robot * robot, struct Wall_collect
     return score;
 }
 
-int checkRobotSensorFrontLeftAllWalls(struct Robot * robot, struct Wall_collection * head) {
+int checkRobotSensorLeftAllWalls(struct Robot * robot, struct Wall_collection * head) {
     struct Wall_collection *ptr, *head_store;
     int i;
     double xDir, yDir;
@@ -128,8 +141,8 @@ int checkRobotSensorFrontLeftAllWalls(struct Robot * robot, struct Wall_collecti
     for (i = 0; i < 5; i++)
     {
         ptr = head_store;
-        xDir = round(robotCentreX+(-ROBOT_WIDTH/2)*cos((robot->angle)*PI/180)-(-ROBOT_HEIGHT/2-SENSOR_VISION+sensorSensitivityLength*i)*sin((robot->angle)*PI/180));
-        yDir = round(robotCentreY+(-ROBOT_WIDTH/2)*sin((robot->angle)*PI/180)+(-ROBOT_HEIGHT/2-SENSOR_VISION+sensorSensitivityLength*i)*cos((robot->angle)*PI/180));
+        xDir = round(robotCentreX+(-ROBOT_WIDTH/2 + 12.5)*cos((robot->angle - 90)*PI/180)-(-ROBOT_HEIGHT/2-SENSOR_VISION+sensorSensitivityLength*i)*sin((robot->angle - 90)*PI/180));
+        yDir = round(robotCentreY+(-ROBOT_WIDTH/2 + 12.5)*sin((robot->angle - 90)*PI/180)+(-ROBOT_HEIGHT/2-SENSOR_VISION+sensorSensitivityLength*i)*cos((robot->angle - 90)*PI/180));
         xTL = (int) xDir;
         yTL = (int) yDir;
         hit = 0;
@@ -308,6 +321,20 @@ void robotUpdate(struct SDL_Renderer * renderer, struct Robot * robot){
         SDL_RenderFillRect(renderer, &rect);
     }
 
+    //Front Left Sensor
+    for (i = 0; i < 5; i++)
+    {
+        xDir = round(robotCentreX+(-ROBOT_WIDTH/2 + 12.5)*cos((robot->angle)*PI/180 - 90)-(-ROBOT_HEIGHT/2-SENSOR_VISION+sensor_sensitivity*i)*sin((robot->angle - 90)*PI/180));
+        yDir = round(robotCentreY+(-ROBOT_WIDTH/2 + 12.5)*sin((robot->angle)*PI/180 - 90)+(-ROBOT_HEIGHT/2-SENSOR_VISION+sensor_sensitivity*i)*cos((robot->angle - 90)*PI/180));
+        xTL = (int) xDir;
+        yTL = (int) yDir;
+
+        SDL_Rect rect = {xTL, yTL, 2, sensor_sensitivity};
+        SDL_SetRenderDrawColor(renderer, 80+(20*(5-i)), 80+(20*(5-i)), 80+(20*(5-i)), 255);
+        SDL_RenderDrawRect(renderer, &rect);
+        SDL_RenderFillRect(renderer, &rect);
+    }
+
 //    // Back Sensor
 //    for (i = 0; i < 5; i++)
 //    {
@@ -387,13 +414,57 @@ void robotMotorMove(struct Robot * robot) {
     robot->y = (int) y_offset;
 }
 
-void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_right__diagonal_sensor, int front_left_diagonal_sensor) {
+void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_right__diagonal_sensor, int front_left_diagonal_sensor, int left_sensor) {
     // Might need to tone down speeds and turns for it to be "road legal" ok these dont work anymore but idk
     // 17,3,8
     // 13,4,8
     // NEED TO INCREMENT SPEEDS FOR IT TO BE LEGAL
 
-    // Zoom if on a straight
+
+
+    if(front_right_sensor >= 1) {
+        robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+        printf("slow down\n");
+    }
+
+
+
+    // Turn right and slow down
+    if(front_right_sensor > 0 || front_left_diagonal_sensor > 2 && left_sensor > 1) {
+
+        //robot->angle = (robot->angle+DEFAULT_ANGLE_CHANGE)%360;
+        robot->direction = RIGHT;
+        //robot->currentSpeed = 3;
+        if(robot->currentSpeed > 0) {
+            robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+        } else {
+            robot->currentSpeed += DEFAULT_SPEED_CHANGE;
+        }
+        printf("Turn right & Slow down\n");
+
+    }
+
+    else if((left_sensor == 1 || left_sensor == 1) && front_left_diagonal_sensor > 0 && front_right_sensor == 0 && front_right__diagonal_sensor == 0) {
+        robot->direction = UP;
+    }
+
+    else if(front_left_diagonal_sensor > 1 && front_right__diagonal_sensor > 1 && front_right_sensor == 0) {
+        robot->direction = UP;
+        printf("Go straight\n");
+    }
+
+
+
+    // Turn right if getting too close on left
+    else if(front_left_diagonal_sensor == 1) {
+        if(robot->currentSpeed < 8) {
+            robot->currentSpeed += DEFAULT_SPEED_CHANGE;
+        }
+        robot->direction = RIGHT;
+        printf("right with speed increase\n");
+    }
+
+    // Zoom if on a straigh
     if((front_left_diagonal_sensor == 2 && front_right_sensor == 0 && front_right__diagonal_sensor == 0) || (front_left_diagonal_sensor == 1 && front_right_sensor == 0 && front_right__diagonal_sensor == 0)) {
         //robot->currentSpeed = 13;
         if(robot->currentSpeed < 8) {
@@ -401,24 +472,11 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
         } else {
             robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
         }
+        printf("go faster\n");
     }
 
-    // Turn right and slow down
-    if(front_right_sensor > 0 || front_left_diagonal_sensor > 2) {
-
-        //robot->angle = (robot->angle+DEFAULT_ANGLE_CHANGE)%360;
-        robot->direction = RIGHT;
-        //robot->currentSpeed = 3;
-        if(robot->currentSpeed > 3) {
-            robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
-        } else {
-            robot->currentSpeed += DEFAULT_SPEED_CHANGE;
-        }
-
-    }
-
-    // Turn left and slow down but not as much
-    if ((front_right_sensor == 0 && front_left_diagonal_sensor == 0)) {
+        // Turn left and slow down but not as much
+    if ((front_right_sensor == 0 && front_left_diagonal_sensor == 0) && left_sensor < 1) {
         if (robot->currentSpeed < 2) {
             robot->currentSpeed += DEFAULT_SPEED_CHANGE;
         }
@@ -430,20 +488,17 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
         }
         //robot->currentSpeed = 10;
         robot->direction = LEFT;
-
+        printf("turn left\n");
     }
 
-//    if(front_left_diagonal_sensor == 1) {
+    if(left_sensor > 3) {
+        robot->direction = RIGHT;
+        printf("wall very close left\n");
+    }
+
+    //    if(front_left_diagonal_sensor == 1) {
 //        robot->angle = 0;
 //    }
-
-    // Turn right if getting too close on left
-    if(front_left_diagonal_sensor == 1) {
-        if(robot->currentSpeed < 8) {
-            robot->currentSpeed += DEFAULT_SPEED_CHANGE;
-        }
-        robot->direction = RIGHT;
-    }
 
 //    else if ((robot->currentSpeed>0) && ((front_left_sensor == 1) || (front_right_sensor == 1)) ) {
 //        robot->direction = DOWN;
