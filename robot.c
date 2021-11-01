@@ -1,7 +1,7 @@
 #include "robot.h"
 
 void setup_robot(struct Robot *robot){
-    int mazeOpt = 1;
+    int mazeOpt = 0;
     if(mazeOpt == 0) {
        robot->x = OVERALL_WINDOW_WIDTH/2-50;
         robot->y = OVERALL_WINDOW_HEIGHT-50;
@@ -478,6 +478,8 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
 
     }
 
+
+
     // Turn right and slow down
     else if(front_right_sensor > 0 || front_left_diagonal_sensor > 2 && left_sensor >= 0) {
 
@@ -507,7 +509,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
 
     // Turn right if getting too close on left
     else if(front_left_diagonal_sensor == 1) {
-        if(robot->currentSpeed < 8) {
+        if(robot->currentSpeed < 6) {
             //robot->currentSpeed += DEFAULT_SPEED_CHANGE;
         }
         robot->direction = RIGHT;
@@ -535,7 +537,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
     // Zoom if on a straigh
     if((front_left_diagonal_sensor == 2 && front_right_sensor == 0 && front_right__diagonal_sensor == 0) || (front_left_diagonal_sensor == 1 && front_right_sensor == 0 && front_right__diagonal_sensor == 0)) {
         //robot->currentSpeed = 13;
-        if(robot->currentSpeed < 6) {
+        if(robot->currentSpeed < 8) {
             robot->direction = UP;
         } else {
             robot->direction = DOWN;
