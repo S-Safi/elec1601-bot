@@ -32,6 +32,18 @@ void setup_robot(struct Robot *robot){
         robot->currentSpeed = 0;
         robot->crashed = 0;
         robot->auto_mode = 0;
+    } else if(mazeOpt == 3) {
+        robot->x = 150;
+        robot->y = 240;
+        robot->true_x = 150;
+        robot->true_y = 240;
+        robot->width = ROBOT_WIDTH;
+        robot->height = ROBOT_HEIGHT;
+        robot->direction = 0;
+        robot->angle = 180;
+        robot->currentSpeed = 0;
+        robot->crashed = 0;
+        robot->auto_mode = 0;
     }
 
     robot->currentSpeed = 0;
@@ -442,7 +454,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
 
 
     if(front_right_sensor >= 1) {
-        robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+        robot->direction = DOWN;
         printf("slow down\n");
     }
 
@@ -458,7 +470,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
         robot->direction = RIGHT;
         //robot->currentSpeed = 3;
         if(robot->currentSpeed > 0) {
-            robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+            //robot->direction = DOWN;
         } else {
             robot->currentSpeed += DEFAULT_SPEED_CHANGE;
         }
@@ -473,7 +485,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
         robot->direction = RIGHT;
         //robot->currentSpeed = 3;
         if(robot->currentSpeed > 0) {
-            robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+            //robot->direction = DOWN;
         } else {
             robot->currentSpeed += DEFAULT_SPEED_CHANGE;
         }
@@ -496,7 +508,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
     // Turn right if getting too close on left
     else if(front_left_diagonal_sensor == 1) {
         if(robot->currentSpeed < 8) {
-            robot->currentSpeed += DEFAULT_SPEED_CHANGE;
+            //robot->currentSpeed += DEFAULT_SPEED_CHANGE;
         }
         robot->direction = RIGHT;
         printf("right with speed increase\n");
@@ -504,7 +516,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
 
     else if(front_right__diagonal_sensor > 0) {
         robot->direction = LEFT;
-        robot->currentSpeed--;
+        //robot->direction = DOWN;
         printf("left");
     }
 
@@ -523,10 +535,10 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
     // Zoom if on a straigh
     if((front_left_diagonal_sensor == 2 && front_right_sensor == 0 && front_right__diagonal_sensor == 0) || (front_left_diagonal_sensor == 1 && front_right_sensor == 0 && front_right__diagonal_sensor == 0)) {
         //robot->currentSpeed = 13;
-        if(robot->currentSpeed < 8) {
-            robot->currentSpeed += DEFAULT_SPEED_CHANGE;
+        if(robot->currentSpeed < 6) {
+            robot->direction = UP;
         } else {
-            robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+            robot->direction = DOWN;
         }
         printf("go faster\n");
     }
@@ -534,7 +546,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
         // Turn left and slow down but not as much
     if ((front_right_sensor == 0 && front_left_diagonal_sensor == 0) && left_sensor < 1) {
         if (robot->currentSpeed < 2) {
-            robot->currentSpeed += DEFAULT_SPEED_CHANGE;
+            //robot->currentSpeed += DEFAULT_SPEED_CHANGE;
         }
         //robot->angle = (robot->angle-DEFAULT_ANGLE_CHANGE)%360;
 //        if(robot->currentSpeed < 10) {

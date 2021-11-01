@@ -123,6 +123,21 @@ int main(int argc, char *argv[]) {
                 insertAndSetFirstWall(&head, radius+x, centreX + x, centreY + sqrt(radius*radius - x*x), wallWidth, wallWidth);
             }
         }
+    } else if(mazeOpt == 3) {
+         /* Outside border */
+        insertAndSetFirstWall(&head, 2,  0, 0, 320, 10);         /*broken line on top*/
+        insertAndSetFirstWall(&head, 2,  370, 0, 290, 10);
+        insertAndSetFirstWall(&head, 3,  0, 0, 10, 480);    /*left side*/
+        insertAndSetFirstWall(&head, 4,  630, 0, 10, 480);  /*right side*/
+        insertAndSetFirstWall(&head, 5,  0, 470, 640, 10);  /*bottom*/
+      /* Map */
+        insertAndSetFirstWall(&head, 2,  320, 0, 10, 90);
+        insertAndSetFirstWall(&head, 2,  370, 0, 10, 30);
+        insertAndSetFirstWall(&head, 2,  320, 90, 50, 10);
+      /* Map */
+        insertAndSetFirstWall(&head, 2,  320, 0, 10, 90);
+        insertAndSetFirstWall(&head, 2,  370, 0, 10, 30);
+        insertAndSetFirstWall(&head, 2,  320, 90, 50, 10);
     }
 
     // SETUP MAZE
