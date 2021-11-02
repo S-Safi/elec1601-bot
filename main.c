@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
     clock_t start_time, end_time;
     int msec;
 
-    int mazeOpt = 1;
+    int mazeOpt = 3;
 
     if(mazeOpt == 0) {
         insertAndSetFirstWall(&head, 1,  OVERALL_WINDOW_WIDTH/2, OVERALL_WINDOW_HEIGHT/2, 10, OVERALL_WINDOW_HEIGHT/2);
@@ -123,6 +123,42 @@ int main(int argc, char *argv[]) {
                 insertAndSetFirstWall(&head, radius+x, centreX + x, centreY + sqrt(radius*radius - x*x), wallWidth, wallWidth);
             }
         }
+    } else if(mazeOpt == 3) {
+        insertAndSetFirstWall(&head, 1, 0, 0, 10, OVERALL_WINDOW_HEIGHT - 180);
+    insertAndSetFirstWall(&head, 1, 0, OVERALL_WINDOW_HEIGHT - 120, 10, OVERALL_WINDOW_HEIGHT - 180);
+    insertAndSetFirstWall(&head, 3, 0, 0, OVERALL_WINDOW_WIDTH, 10);
+    insertAndSetFirstWall(&head, 4, OVERALL_WINDOW_WIDTH - 10, 0, 10, OVERALL_WINDOW_HEIGHT);
+    insertAndSetFirstWall(&head, 5, 0, OVERALL_WINDOW_HEIGHT - 10 ,80, 10);
+    insertAndSetFirstWall(&head, 6, 160, OVERALL_WINDOW_HEIGHT - 10 ,OVERALL_WINDOW_WIDTH, 10);
+    insertAndSetFirstWall(&head, 5, 240, OVERALL_WINDOW_WIDTH/2 ,320, 10);
+    insertAndSetFirstWall(&head, 6, 0, OVERALL_WINDOW_WIDTH/4 ,80, 10);
+    insertAndSetFirstWall(&head, 6, 240, OVERALL_WINDOW_WIDTH/4 ,80, 10);
+    insertAndSetFirstWall(&head, 6, 400, OVERALL_WINDOW_WIDTH/4 ,240, 10);
+    insertAndSetFirstWall(&head, 7, 80, OVERALL_WINDOW_WIDTH/8 ,80, 10);
+    insertAndSetFirstWall(&head, 7, 400, OVERALL_WINDOW_WIDTH/8 ,160, 10);
+    insertAndSetFirstWall(&head, 8, 160, OVERALL_WINDOW_WIDTH - 80, 80, 10);
+    insertAndSetFirstWall(&head, 8, 320, OVERALL_WINDOW_WIDTH - 80, 80, 10);
+    insertAndSetFirstWall(&head, 8, 480, OVERALL_WINDOW_WIDTH - 80, 80, 10);
+    insertAndSetFirstWall(&head, 9, 80, OVERALL_WINDOW_WIDTH - 160 ,240, 10);
+    insertAndSetFirstWall(&head, 9, 480, OVERALL_WINDOW_WIDTH - 160 ,80, 10);
+    insertAndSetFirstWall(&head, 10, 160, OVERALL_WINDOW_WIDTH - 240, 160, 10);
+    insertAndSetFirstWall(&head, 10, 400, OVERALL_WINDOW_WIDTH - 240, 240, 10);
+    insertAndSetFirstWall(&head, 1, 80, OVERALL_WINDOW_WIDTH - 400,   80, 10);
+    insertAndSetFirstWall(&head, 1, 240, OVERALL_WINDOW_WIDTH - 400,   160, 10);
+    insertAndSetFirstWall(&head, 1, 480, OVERALL_WINDOW_WIDTH - 400,   80, 10);
+    insertAndSetFirstWall(&head, 12, OVERALL_WINDOW_WIDTH/2 ,0 ,10, 170);
+    insertAndSetFirstWall(&head, 13, OVERALL_WINDOW_WIDTH/4, 80 ,10, 90);
+    insertAndSetFirstWall(&head, 13, OVERALL_WINDOW_WIDTH/4, 240 ,10, 170);
+    insertAndSetFirstWall(&head, 13, OVERALL_WINDOW_WIDTH/4, 560 ,10, 90);
+    insertAndSetFirstWall(&head, 14, OVERALL_WINDOW_WIDTH/8, 80 ,10, 90);
+    insertAndSetFirstWall(&head, 14, OVERALL_WINDOW_WIDTH/8, 240 ,10, 240);
+    insertAndSetFirstWall(&head, 14, OVERALL_WINDOW_WIDTH/8, 480 ,10, 240);
+    insertAndSetFirstWall(&head, 15, OVERALL_WINDOW_WIDTH - 80, 240, 10, 90);
+    insertAndSetFirstWall(&head, 15, OVERALL_WINDOW_WIDTH - 80, 480, 10, 90);
+    insertAndSetFirstWall(&head, 16, OVERALL_WINDOW_WIDTH - 160, 480 ,10, 90);
+    insertAndSetFirstWall(&head, 17, OVERALL_WINDOW_WIDTH - 240, 80, 10, 90);
+    insertAndSetFirstWall(&head, 18, OVERALL_WINDOW_WIDTH - 400, 80, 10, 90);
+    insertAndSetFirstWall(&head, 18, OVERALL_WINDOW_WIDTH - 400, 240, 10, 90);
     }
 
     // SETUP MAZE

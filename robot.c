@@ -1,7 +1,7 @@
 #include "robot.h"
 
 void setup_robot(struct Robot *robot){
-    int mazeOpt = 1;
+    int mazeOpt = 3;
     if(mazeOpt == 0) {
        robot->x = OVERALL_WINDOW_WIDTH/2-50;
         robot->y = OVERALL_WINDOW_HEIGHT-50;
@@ -25,6 +25,18 @@ void setup_robot(struct Robot *robot){
         robot->y = OVERALL_WINDOW_HEIGHT-50;
         robot->true_x = 50;
         robot->true_y = OVERALL_WINDOW_HEIGHT-50;
+        robot->width = ROBOT_WIDTH;
+        robot->height = ROBOT_HEIGHT;
+        robot->direction = 0;
+        robot->angle = 0;
+        robot->currentSpeed = 0;
+        robot->crashed = 0;
+        robot->auto_mode = 0;
+    } else if(mazeOpt == 3) {
+        robot->x = OVERALL_WINDOW_WIDTH/2-50;
+        robot->y = OVERALL_WINDOW_HEIGHT-50;
+        robot->true_x = 115;
+        robot->true_y = 455;
         robot->width = ROBOT_WIDTH;
         robot->height = ROBOT_HEIGHT;
         robot->direction = 0;
