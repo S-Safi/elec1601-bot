@@ -1,7 +1,7 @@
 #include "robot.h"
 
 void setup_robot(struct Robot *robot){
-    int mazeOpt = 3;
+    int mazeOpt = 0;
     if(mazeOpt == 0) {
        robot->x = OVERALL_WINDOW_WIDTH/2-50;
         robot->y = OVERALL_WINDOW_HEIGHT-50;
@@ -444,6 +444,11 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
     // 13,4,8
     // NEED TO INCREMENT SPEEDS FOR IT TO BE LEGAL
 
+    // Increment less than 1m/s for each wheel, like increment speed & angle less than 1 total, eg having each increment less like by half?? That way can turn and speed at same time
+    // Create script of justifications :)
+    // TinkerCAD
+    // Mazes must just be commented out
+
     int startCounter = 0;
 
 
@@ -485,7 +490,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
         robot->direction = RIGHT;
         //robot->currentSpeed = 3;
         if(robot->currentSpeed > 0) {
-            robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
+//            robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
         } else {
             robot->currentSpeed += DEFAULT_SPEED_CHANGE;
         }
@@ -516,7 +521,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
 
     else if(front_right__diagonal_sensor > 0) {
         robot->direction = LEFT;
-        robot->currentSpeed--;
+//        robot->currentSpeed--;
         printf("left");
     }
 
@@ -543,7 +548,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
         printf("go faster\n");
     }
 
-        // Turn left and slow down but not as much
+        // Turn left
     if ((front_right_sensor == 0 && front_left_diagonal_sensor == 0) && left_sensor < 1) {
         if (robot->currentSpeed < 2) {
             robot->currentSpeed += DEFAULT_SPEED_CHANGE;
