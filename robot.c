@@ -1,7 +1,7 @@
 #include "robot.h"
 
 void setup_robot(struct Robot *robot){
-    int mazeOpt = 1;
+    int mazeOpt = 0;
     if(mazeOpt == 0) {
        robot->x = OVERALL_WINDOW_WIDTH/2-50;
         robot->y = OVERALL_WINDOW_HEIGHT-50;
@@ -494,7 +494,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
             } else if(front_left_diagonal_sensor == 3 && front_right_sensor == 0 && left_sensor == 3) {
                 robot->direction = RIGHT;
             } else if(left_sensor == 3 && front_left_diagonal_sensor == 1 && (front_right_sensor == 0 || front_right_sensor == 1 || front_right_sensor == 2)) {
-                printf("stuck up\n");
+                printf("stuck right\n");
 
                     robot->direction = RIGHT;
 
@@ -502,7 +502,15 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
             }
             else if(front_right_sensor >= 1) {
                     printf("enter front >= 1");
-                    if((left_sensor >= 2 && front_left_diagonal_sensor >= 2) || (front_left_diagonal_sensor == 3 && front_right_sensor == 2)) {
+                    if(left_sensor > 2 && front_left_diagonal_sensor > 1 && front_right_sensor > 0 && front_right__diagonal_sensor > 0) {
+                            if(robot->currentSpeed != 0) {
+                                robot->direction = DOWN;
+                            } else {
+                                robot->direction = RIGHT;
+                            }
+
+                    }
+                    else if((left_sensor >= 2 && front_left_diagonal_sensor >= 2) || (front_left_diagonal_sensor == 3 && front_right_sensor == 2)) {
 
 //                        robot->direction = RIGHT;
                         printf("stuck go right\n");
@@ -557,6 +565,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
                 printf("nothing else left");
                 robot->direction = LEFT;
             } else if(front_left_diagonal_sensor == 2 && left_sensor == 3) {
+                // Can do maze 0 faster on 6, cant do maze 1 on 6
                 if(robot->currentSpeed < 5) {
                     robot->direction = UP;
                 }
