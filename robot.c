@@ -1,7 +1,7 @@
 #include "robot.h"
 
 void setup_robot(struct Robot *robot){
-    int mazeOpt = 1;
+    int mazeOpt = 3;
     if(mazeOpt == 0) {
        robot->x = OVERALL_WINDOW_WIDTH/2-50;
         robot->y = OVERALL_WINDOW_HEIGHT-50;
@@ -500,7 +500,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
 //            printf("nothing");
 //        }
 
-            if(robot->stillCounter > 0) {
+            if(robot->stillCounter > 1) {
                 printf("too still\n");
                 robot->direction = UP;
                 robot->stillCounter = 0;
@@ -509,16 +509,8 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
                     robot->direction = DOWN;
                 }
 
-            } else if(front_right__diagonal_sensor == 3 && left_sensor == 2 && front_left_diagonal_sensor == 0 && front_right_sensor == 0) {
-                robot->direction = LEFT;
-            } else if(front_left_diagonal_sensor == 3 && front_right_sensor == 2 && front_right__diagonal_sensor == 1 && left_sensor == 4) {
-                robot->direction = RIGHT;
             }
             else if(front_right__diagonal_sensor == 2 && left_sensor == 1 && front_left_diagonal_sensor == 0 && front_right_sensor == 0) {
-                if(robot->currentSpeed != 0) {
-                    robot->direction = DOWN;
-                }
-            } else if(left_sensor == 2 & front_left_diagonal_sensor == 2 && front_right_sensor == 0 && front_right__diagonal_sensor == 0) {
                 if(robot->currentSpeed != 0) {
                     robot->direction = DOWN;
                 }
@@ -546,8 +538,6 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
                 if(robot->currentSpeed != 0) {
                         printf("WHY NO SLOW SOWBN\n");
                    robot->direction = DOWN;
-                } else {
-                    robot->direction = RIGHT;
                 }
             } else if(front_right__diagonal_sensor > 2 && front_left_diagonal_sensor < 2 && front_right_sensor < 5 && left_sensor < 2) {
                 robot->direction = LEFT;
