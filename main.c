@@ -7,6 +7,7 @@
 #include "formulas.h"
 #include "wall.h"
 #include "robot.h"
+#include "math.h"
 
 int done = 0;
 
@@ -29,7 +30,7 @@ int main(int argc, char *argv[]) {
     clock_t start_time, end_time;
     int msec;
 
-    int mazeOpt = 0;
+    int mazeOpt = 1;
 
     if(mazeOpt == 0) {
         insertAndSetFirstWall(&head, 1,  OVERALL_WINDOW_WIDTH/2, OVERALL_WINDOW_HEIGHT/2, 10, OVERALL_WINDOW_HEIGHT/2);
@@ -46,83 +47,110 @@ int main(int argc, char *argv[]) {
         insertAndSetFirstWall(&head, 12,  OVERALL_WINDOW_WIDTH/2+200, OVERALL_WINDOW_HEIGHT/2+100, OVERALL_WINDOW_WIDTH/2-100, 10);
     } else if(mazeOpt == 1) {
         //Maze Design 1
-        insertAndSetFirstWall(&head, 1,  OVERALL_WINDOW_WIDTH/2-250, OVERALL_WINDOW_HEIGHT/2-175, 10, OVERALL_WINDOW_HEIGHT/5);
-        insertAndSetFirstWall(&head, 2,  OVERALL_WINDOW_WIDTH/2-140, OVERALL_WINDOW_HEIGHT/2-175, 10, OVERALL_WINDOW_HEIGHT/5);
-        insertAndSetFirstWall(&head, 3,  OVERALL_WINDOW_WIDTH/2-250, OVERALL_WINDOW_HEIGHT/2-175, OVERALL_WINDOW_HEIGHT/4, 10);
-        insertAndSetFirstWall(&head, 4,  OVERALL_WINDOW_WIDTH/2-250, OVERALL_WINDOW_HEIGHT/2-85, OVERALL_WINDOW_HEIGHT/4, 10);
-        insertAndSetFirstWall(&head, 5,  OVERALL_WINDOW_WIDTH/2+125, OVERALL_WINDOW_HEIGHT/2+50, 10, OVERALL_WINDOW_HEIGHT/4.5);
-        insertAndSetFirstWall(&head, 6,  OVERALL_WINDOW_WIDTH/2+245, OVERALL_WINDOW_HEIGHT/2+50, 10, OVERALL_WINDOW_HEIGHT/4.35);
-        insertAndSetFirstWall(&head, 7,  OVERALL_WINDOW_WIDTH/2+125, OVERALL_WINDOW_HEIGHT/2+50, OVERALL_WINDOW_HEIGHT/4, 10);
-        insertAndSetFirstWall(&head, 8,  OVERALL_WINDOW_WIDTH/2+125, OVERALL_WINDOW_HEIGHT/2+150, OVERALL_WINDOW_HEIGHT/4, 10);
-        insertAndSetFirstWall(&head, 9,  OVERALL_WINDOW_WIDTH/2-225, OVERALL_WINDOW_HEIGHT/2+50, 10, OVERALL_WINDOW_HEIGHT/2);
-        insertAndSetFirstWall(&head, 10,  OVERALL_WINDOW_WIDTH/2-150, OVERALL_WINDOW_HEIGHT/2+50, 10, OVERALL_WINDOW_HEIGHT/2);
-        insertAndSetFirstWall(&head, 11,  OVERALL_WINDOW_WIDTH/2-150, OVERALL_WINDOW_HEIGHT/2+50, OVERALL_WINDOW_HEIGHT/2.5, 10);
-        insertAndSetFirstWall(&head, 12,  OVERALL_WINDOW_WIDTH/2-150, OVERALL_WINDOW_HEIGHT/2+140, OVERALL_WINDOW_HEIGHT/4, 10);
-        insertAndSetFirstWall(&head, 13,  OVERALL_WINDOW_WIDTH/2-40, OVERALL_WINDOW_HEIGHT/2+140, 10, OVERALL_WINDOW_HEIGHT/13);
-        insertAndSetFirstWall(&head, 14,  OVERALL_WINDOW_WIDTH/2+125, OVERALL_WINDOW_HEIGHT/2-25, OVERALL_WINDOW_HEIGHT/2, 10);
-        insertAndSetFirstWall(&head, 15,  OVERALL_WINDOW_WIDTH/2-180, OVERALL_WINDOW_HEIGHT/2-25, OVERALL_WINDOW_HEIGHT/4, 10);
-        insertAndSetFirstWall(&head, 16,  OVERALL_WINDOW_WIDTH/2-65, OVERALL_WINDOW_HEIGHT/2-175, 10, OVERALL_WINDOW_HEIGHT/3);
-        insertAndSetFirstWall(&head, 17,  OVERALL_WINDOW_WIDTH/2-55, OVERALL_WINDOW_HEIGHT/2-175, OVERALL_WINDOW_HEIGHT/1.25, 10);
-        insertAndSetFirstWall(&head, 18,  OVERALL_WINDOW_WIDTH/2+150, OVERALL_WINDOW_HEIGHT/2-175, 10, OVERALL_WINDOW_HEIGHT/6.85);
-        insertAndSetFirstWall(&head, 19,  OVERALL_WINDOW_WIDTH/2+60, OVERALL_WINDOW_HEIGHT/2-115, OVERALL_WINDOW_HEIGHT/5, 10);
-        insertAndSetFirstWall(&head, 20,  OVERALL_WINDOW_WIDTH/2-350, OVERALL_WINDOW_HEIGHT/2-240, OVERALL_WINDOW_HEIGHT/1.005, 10);
-        insertAndSetFirstWall(&head, 21,  OVERALL_WINDOW_WIDTH/2-150, OVERALL_WINDOW_HEIGHT/2-240, OVERALL_WINDOW_HEIGHT/1.005, 10);
-        insertAndSetFirstWall(&head, 22,  OVERALL_WINDOW_WIDTH/2-150, OVERALL_WINDOW_HEIGHT/2+230, OVERALL_WINDOW_HEIGHT/1.005, 10);
-        insertAndSetFirstWall(&head, 23,  OVERALL_WINDOW_WIDTH/2-340, OVERALL_WINDOW_HEIGHT/2+230, OVERALL_WINDOW_HEIGHT/4, 10);
-        insertAndSetFirstWall(&head, 24,  OVERALL_WINDOW_WIDTH/2-320, OVERALL_WINDOW_HEIGHT/2-250, 10, OVERALL_WINDOW_HEIGHT/1);
-        insertAndSetFirstWall(&head, 25,  OVERALL_WINDOW_WIDTH/2+310, OVERALL_WINDOW_HEIGHT/2-265, 10, OVERALL_WINDOW_HEIGHT/5);
-        insertAndSetFirstWall(&head, 26,  OVERALL_WINDOW_WIDTH/2+310, OVERALL_WINDOW_HEIGHT/2-85, 10, OVERALL_WINDOW_HEIGHT/7);
-        insertAndSetFirstWall(&head, 27,  OVERALL_WINDOW_WIDTH/2+250, OVERALL_WINDOW_HEIGHT/2-85, OVERALL_WINDOW_HEIGHT/7, 10);
-        insertAndSetFirstWall(&head, 28,  OVERALL_WINDOW_WIDTH/2+310, OVERALL_WINDOW_HEIGHT/2-15, 10, OVERALL_WINDOW_HEIGHT/1.05);
+            insertAndSetFirstWall(&head, 2,  220, 400, 10, 80);
+    insertAndSetFirstWall(&head, 2,  20, 400, 200, 10);
+    insertAndSetFirstWall(&head, 2,  20, 50, 10, 350);
+    insertAndSetFirstWall(&head, 2,  20, 50, 280, 10);
+    insertAndSetFirstWall(&head, 2,  300, 50, 10, 100);
+    insertAndSetFirstWall(&head, 2,  300, 150, 110, 10);
+    insertAndSetFirstWall(&head, 2,  400, 50, 10, 100);
+    insertAndSetFirstWall(&head, 2,  400, 50, 220, 10);
+    insertAndSetFirstWall(&head, 2,  620, 50, 10, 290);
+    insertAndSetFirstWall(&head, 2,  620, 340, 20, 10);
+
+    insertAndSetFirstWall(&head, 1,  320, 300, 10, 180);
+    insertAndSetFirstWall(&head, 2,  120, 300, 200, 10);
+    insertAndSetFirstWall(&head, 2,  120, 150, 10, 150);
+    insertAndSetFirstWall(&head, 2,  120, 150, 80, 10);
+    insertAndSetFirstWall(&head, 2,  200, 150, 10, 100);
+    insertAndSetFirstWall(&head, 2,  200, 250, 310, 10);
+    insertAndSetFirstWall(&head, 2,  500, 150, 10, 100);
+    insertAndSetFirstWall(&head, 2,  500, 150, 10, 100);
+    insertAndSetFirstWall(&head, 2,  500, 150, 20, 10);
+    insertAndSetFirstWall(&head, 2,  520, 150, 10, 290);
+    insertAndSetFirstWall(&head, 2,  520, 440, 120, 10);
     } else if(mazeOpt == 2) {
         // Maze Design 2
+    insertAndSetFirstWall(&head, 2,  220, 400, 10, 80);
+    insertAndSetFirstWall(&head, 2,  20, 400, 200, 10);
+    insertAndSetFirstWall(&head, 2,  20, 50, 10, 350);
+    insertAndSetFirstWall(&head, 2,  20, 50, 280, 10);
+    insertAndSetFirstWall(&head, 2,  300, 50, 10, 100);
+    insertAndSetFirstWall(&head, 2,  300, 150, 110, 10);
+    insertAndSetFirstWall(&head, 2,  400, 50, 10, 100);
+    insertAndSetFirstWall(&head, 2,  400, 50, 220, 10);
+    insertAndSetFirstWall(&head, 2,  620, 50, 10, 290);
+    insertAndSetFirstWall(&head, 2,  620, 340, 20, 10);
 
-            int gap_width = 100;
-        int centreX = OVERALL_WINDOW_WIDTH/2;   //These integers determine the position of the
-        int centreY = OVERALL_WINDOW_HEIGHT/2;  //centre of the circle
-        float wallWidth = 5;
-        float resolution = 0.07;  //lower values give greater resolution, any less than 0.000001 requires at minimum 32Gb ram
+    insertAndSetFirstWall(&head, 1,  320, 300, 10, 180);
+    insertAndSetFirstWall(&head, 2,  120, 300, 200, 10);
+    insertAndSetFirstWall(&head, 2,  120, 150, 10, 150);
+    insertAndSetFirstWall(&head, 2,  120, 150, 80, 10);
+    insertAndSetFirstWall(&head, 2,  200, 150, 10, 100);
+    insertAndSetFirstWall(&head, 2,  200, 250, 310, 10);
+    insertAndSetFirstWall(&head, 2,  500, 150, 10, 100);
+    insertAndSetFirstWall(&head, 2,  500, 150, 10, 100);
+    insertAndSetFirstWall(&head, 2,  500, 150, 20, 10);
+    insertAndSetFirstWall(&head, 2,  520, 150, 10, 290);
+    insertAndSetFirstWall(&head, 2,  520, 440, 120, 10);
+    } else if(mazeOpt == 3) {
+         int i;
+    insertAndSetFirstWall(&head, 12,  120, 450, 10, 30);
+    insertAndSetFirstWall(&head, 12,  220, 450, 10, 30);
+    for (i = 0; i < 100; i++){
+        insertAndSetFirstWall(&head, i,  20 + i , 350 + i, 10, 10); //1
+        insertAndSetFirstWall(&head, i,  20 +100 + i , 350 + i, 10, 10); //1
+    }
+    insertAndSetFirstWall(&head, 12,  20, 280, 10, 70);
+    insertAndSetFirstWall(&head, 12,  120, 280, 10, 70);
+    for (i = 0; i < 180; i++){
+        insertAndSetFirstWall(&head, i,  20 +190 - i/2 , 100 + i, 10, 10); //1
+    }
+    for (i = 0; i < 105; i++){
+        insertAndSetFirstWall(&head, i,  20 +105/2 - i/2 , 175 + i, 10, 10); //1
+    }
+    insertAndSetFirstWall(&head, 2,  20, 175, 105/2, 10);
+    insertAndSetFirstWall(&head, 2,  20, 20, 10, 155);
+    insertAndSetFirstWall(&head, 2,  20, 20, 300, 10);
+    insertAndSetFirstWall(&head, 2,  320, 20, 10, 60);
+    insertAndSetFirstWall(&head, 2,  80, 100, 130, 10);
+    insertAndSetFirstWall(&head, 2,  80, 80, 10, 20);
+    insertAndSetFirstWall(&head, 2,  80, 80, 160, 10);
 
-        //spawn tube
-        insertAndSetFirstWall(&head, 1, 30, 183, 5, 300);
-        insertAndSetFirstWall(&head, 1, 107, 290, 5, 300);
-        insertAndSetFirstWall(&head, 1, 30, 183, 80, 5);
+    double j;
+    for (i = 0; i < 50; i++){
+        j = i;
+        insertAndSetFirstWall(&head, i+1,
+                              // the most important bit is below.
+                              // increase the 20 for a tighter bend
+                              // descrease for a more meandering flow
+                              320 + 30*sin(10*j * M_PI/180),
+                              // increase the 5 for a spacier curve
+                              (i * 5)+80,
+                              10, 10);
+    }
+    for (i = 0; i < 75; i++){
+        j = i;
+        insertAndSetFirstWall(&head, i+1,
+                              // the most important bit is below.
+                              // increase the 20 for a tighter bend
+                              // descrease for a more meandering flow
+                              240 + 30*sin(10*j * M_PI/180),
+                              // increase the 5 for a spacier curve
+                              (i * 5)+80,
+                              10, 10);
+    }
+    insertAndSetFirstWall(&head, 2,  345, 330, 105, 10);
+    insertAndSetFirstWall(&head, 2,  450, 190, 10, 150);
+    insertAndSetFirstWall(&head, 2,  380, 190, 70, 10);
+    insertAndSetFirstWall(&head, 2,  380, 20, 10, 170);
+    insertAndSetFirstWall(&head, 2,  380, 20, 260, 10);
 
-        float radius = 220;
-        for(float x = -radius; x <= radius; x+=resolution) {
-            //outer circle
-            if (x >= -radius + 7.5) {
-                insertAndSetFirstWall(&head, x, centreX + x, centreY - sqrt(radius*radius - x*x),wallWidth, wallWidth);
-                insertAndSetFirstWall(&head, radius+x, centreX + x, centreY + sqrt(radius*radius - x*x), wallWidth, wallWidth);
-            }
-            //diagonal lines
-            if (x>12 && x<95) {
-                insertAndSetFirstWall(&head, x, centreX+100+x, centreY-35-x/1.5, 5, 5);
-            }
-            if (x>-60 && x<60) {
-                insertAndSetFirstWall(&head, x, centreX+50+x, centreY-80+x/1.5, 5, 5);
-            }
-            if (x>-60 && x<60) {
-                insertAndSetFirstWall(&head, x, centreX+50+x, centreY+x/1.5, 5, 5);
-            }
-            if (x>5 && x<40) {
-                insertAndSetFirstWall(&head, x, centreX+80+x, centreY-130-x/0.8, 5, 5);
-            }
-            if (x>-65 && x<-50) {
-                insertAndSetFirstWall(&head, x, centreX+40+x, centreY-290-x/0.2, 5, 5);
-            }
-        }
-
-        //internal circle section
-        radius -= gap_width;
-        for(float x = -radius; x <= radius; x+=resolution) {
-            if (x <= radius - 7.5) {
-                if (x <= radius - 130) {
-                    insertAndSetFirstWall(&head, x, centreX + x, centreY - sqrt(radius*radius - x*x),wallWidth, wallWidth);
-                }
-                insertAndSetFirstWall(&head, radius+x, centreX + x, centreY + sqrt(radius*radius - x*x), wallWidth, wallWidth);
-            }
-        }
+    insertAndSetFirstWall(&head, 2,  255, 455, 345, 10);
+    insertAndSetFirstWall(&head, 2,  600, 100, 10, 365);
+    insertAndSetFirstWall(&head, 2,  530, 100, 70, 10);
+    insertAndSetFirstWall(&head, 2,  530, 80, 10, 20);
+    insertAndSetFirstWall(&head, 2,  530, 80, 110, 10);
     }
 
     // SETUP MAZE
@@ -146,7 +174,10 @@ int main(int argc, char *argv[]) {
         robotMotorMove(&robot);
 
         //Check if robot reaches endpoint. and check sensor values
-        if (checkRobotReachedEnd(&robot, OVERALL_WINDOW_WIDTH, OVERALL_WINDOW_HEIGHT/2+100, 10, 100)){
+        // maze 1 -
+        // maze 5 - &robot, 640, 20, 10, 60
+        // default - &robot, OVERALL_WINDOW_WIDTH, OVERALL_WINDOW_HEIGHT/2+100, 10, 100
+        if (checkRobotReachedEnd(&robot, 640, 340, 10, 100)){
             end_time = clock();
             msec = (end_time-start_time) * 1000 / CLOCKS_PER_SEC;
             robotSuccess(&robot, msec);

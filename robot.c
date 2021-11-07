@@ -1,7 +1,7 @@
 #include "robot.h"
 
 void setup_robot(struct Robot *robot){
-    int mazeOpt = 0;
+    int mazeOpt = 1;
     if(mazeOpt == 0) {
        robot->x = OVERALL_WINDOW_WIDTH/2-50;
         robot->y = OVERALL_WINDOW_HEIGHT-50;
@@ -14,20 +14,10 @@ void setup_robot(struct Robot *robot){
         robot->startupCounter = 0;
         robot->stillCounter = 0;
     } else if(mazeOpt == 1) {
-        robot->x = OVERALL_WINDOW_WIDTH/2-50;
-        robot->y = OVERALL_WINDOW_HEIGHT-50;
-        robot->true_x = OVERALL_WINDOW_WIDTH/2-190;
-        robot->true_y = OVERALL_WINDOW_HEIGHT-50;
-        robot->width = ROBOT_WIDTH;
-        robot->height = ROBOT_HEIGHT;
-        robot->direction = 0;
-        robot->angle = 0;
-        robot->startupCounter = 0;
-    } else if(mazeOpt == 2) {
-        robot->x = 50;
-        robot->y = OVERALL_WINDOW_HEIGHT-50;
-        robot->true_x = 50;
-        robot->true_y = OVERALL_WINDOW_HEIGHT-50;
+        robot->x = 270;
+        robot->y = 460;
+        robot->true_x = 270;
+        robot->true_y = 460;
         robot->width = ROBOT_WIDTH;
         robot->height = ROBOT_HEIGHT;
         robot->direction = 0;
@@ -35,7 +25,40 @@ void setup_robot(struct Robot *robot){
         robot->currentSpeed = 0;
         robot->crashed = 0;
         robot->auto_mode = 0;
-    }
+        robot->startupCounter = 0;
+        robot->stillCounter = 0;
+    } else if(mazeOpt == 2) {
+        robot->x = 620;
+    robot->y = 380;
+    robot->true_x = 620;
+    robot->true_y = 380;
+    robot->width = ROBOT_WIDTH;
+    robot->height = ROBOT_HEIGHT;
+    robot->direction = 0;
+    robot->angle = 270;
+    robot->currentSpeed = 0;
+    robot->crashed = 0;
+    robot->auto_mode = 0;
+    robot->startupCounter = 0;
+        robot->stillCounter = 0;
+    } else if(mazeOpt == 3) {
+        //Maze 5
+
+    robot->x = 170;
+    robot->y = 460;
+    robot->true_x = 170;
+    robot->true_y = 460;
+    robot->width = ROBOT_WIDTH;
+    robot->height = ROBOT_HEIGHT;
+    robot->direction = 0;
+    robot->angle = 0;
+    robot->currentSpeed = 0;
+    robot->crashed = 0;
+    robot->auto_mode = 0;
+
+    printf("Press arrow keys to move manually, or enter to move automatically\n\n");
+}
+
 
     robot->currentSpeed = 0;
     robot->crashed = 0;
@@ -450,7 +473,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
     if(robot->startupCounter < 5 ) {
 
 
-        if((robot->startupCounter % 4) == 1) {
+        if((robot->startupCounter % 2) == 1) {
             printf("LEFT");
             robot->direction = LEFT;
             robot->startupCounter++;
@@ -477,10 +500,24 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
 //            printf("nothing");
 //        }
 
-            if(robot->stillCounter > 8) {
+            if(robot->stillCounter > 1) {
                 printf("too still\n");
                 robot->direction = UP;
                 robot->stillCounter = 0;
+            } else if(front_left_diagonal_sensor == 4 && left_sensor == 3 && front_right_sensor == 0 && front_right__diagonal_sensor == 0) {
+                robot->direction = RIGHT;
+            }
+
+            else if(left_sensor == 4 && front_left_diagonal_sensor == 3 && (front_right_sensor == 0)  && (front_right__diagonal_sensor == 0)) {
+                if(robot->currentSpeed < 6) {
+                   robot->direction = UP;
+                }
+
+            } else if(left_sensor == 4 && front_left_diagonal_sensor == 3 && (front_right_sensor == 1 || front_right_sensor == 2 || front_right_sensor == 3)  && (front_right__diagonal_sensor == 0 || front_right__diagonal_sensor == 1 || front_right__diagonal_sensor == 2)) {
+                if(robot->currentSpeed != 0) {
+                        printf("WHY NO SLOW SOWBN\n");
+                   robot->direction = DOWN;
+                }
             }
 
             else if(left_sensor > 3) {
@@ -502,7 +539,10 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
             }
             else if(front_right_sensor >= 1) {
                     printf("enter front >= 1");
-                    if(left_sensor > 2 && front_left_diagonal_sensor > 1 && front_right_sensor > 0 && front_right__diagonal_sensor > 0) {
+                    if((front_left_diagonal_sensor >= 1 ||front_right__diagonal_sensor >= 1) && left_sensor == 0) {
+                        robot->direction = RIGHT;
+                    }
+                    else if(left_sensor > 2 && front_left_diagonal_sensor > 1 && front_right_sensor > 0 && front_right__diagonal_sensor > 0) {
                             if(robot->currentSpeed != 0) {
                                 robot->direction = DOWN;
                             } else {
@@ -551,22 +591,22 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
                         robot->alternator = 0;
 
                     } else {
-                        //if(robot->currentSpeed != 0) {
-                            robot->direction = RIGHT;
+                        if(robot->currentSpeed != 0) {
+                            robot->direction = DOWN;
                             robot->alternator = 1;
                             printf("alt right\n");
-                        //}
+                        }
 
                     }
-            } else if(left_sensor == 1 && front_left_diagonal_sensor == 0 && front_right_sensor == 0 && front_right__diagonal_sensor == 0) {
+            } else if(left_sensor == 2 && front_left_diagonal_sensor == 0 && front_right_sensor == 0 && front_right__diagonal_sensor == 0) {
                 printf("edge case right");
                 robot->direction = RIGHT;
             } else if(front_left_diagonal_sensor == 0 && front_right_sensor == 0 && front_right__diagonal_sensor == 0) {
                 printf("nothing else left");
                 robot->direction = LEFT;
-            } else if(front_left_diagonal_sensor == 2 && left_sensor == 3) {
+            } else if((front_left_diagonal_sensor == 2 && left_sensor == 3) ||(front_left_diagonal_sensor == 3 && left_sensor == 4)) {
                 // Can do maze 0 faster on 6, cant do maze 1 on 6
-                if(robot->currentSpeed < 5) {
+                if(robot->currentSpeed < 6) {
                     robot->direction = UP;
                 }
 
@@ -574,6 +614,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
                 printf("slight on right, go left\n");
                 robot->direction = LEFT;
             }
+            printf("\n");
 
         }
 
