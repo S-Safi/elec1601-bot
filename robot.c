@@ -1,7 +1,7 @@
 #include "robot.h"
 
 void setup_robot(struct Robot *robot){
-    int mazeOpt = 0;
+    int mazeOpt = 1;
     if(mazeOpt == 0) {
        robot->x = OVERALL_WINDOW_WIDTH/2-50;
         robot->y = OVERALL_WINDOW_HEIGHT-50;
@@ -475,6 +475,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
     if(robot->startupCounter < 5 ) {
 
 
+        // Robot Startup. When the robot begins, it will do a short period of going forward, with a left turn every 3 ticks. It does this for 4 ticks. (ie it does 3 UPs and 1 LEFT.)
         if((robot->startupCounter % 2) == 1) {
             printf("LEFT");
             robot->direction = LEFT;
@@ -485,29 +486,11 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
             robot->startupCounter++;
         }
         } else {
-
-
-//        if(left_sensor >= 3) {
-//        robot->direction = RIGHT;
-//        printf("too close left\n");
-//        }
-//        else if(left_sensor == 2 && front_left_diagonal_sensor == 1) {
-//            robot->direction = UP;
-//            printf("straight up1\n");
-//        } else if(front_left_diagonal_sensor == 1 && left_sensor == 2) {
-//            robot->direction = UP;
-//            printf("straight up2\n");
-//        } else {
-//            robot->direction = LEFT;
-//            printf("nothing");
-//        }
-
+            // If the robot has been still for more than 2 ticks, get unstuck. This uses the robot's alternator to switch between 2 UP ticks and 1 RIGHT tick.
             if(robot->stillCounter > 1) {
                 printf("too still\n");
-//                robot->direction = RIGHT;
                         if(robot->alternator == 1 || robot->alternator == 2) {
-
-                                    robot->direction = UP;
+                                robot->direction = UP;
                                 if(robot->alternator == 2) {
                                     robot->alternator = 0;
                                     printf("alt down2\n");
@@ -523,99 +506,93 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
 
                         robot->stillCounter = 0;
 
-
-            } else if(left_sensor == 3 && front_left_diagonal_sensor == 4 && front_right_sensor == 0 && front_right__diagonal_sensor == 0) {
+            } // If both left sensors are close, but the robot is a slight distance away, slow down.
+            else if(left_sensor == 3 && front_left_diagonal_sensor == 4 && front_right_sensor == 0 && front_right__diagonal_sensor == 0) {
                 printf("down\n");
                 if(robot->currentSpeed != 0) {
                     robot->direction = DOWN;
                 }
 
-            } else if(front_left_diagonal_sensor == 4 && left_sensor == 4 && front_right_sensor == 2 && front_right__diagonal_sensor == 0) {
+            } // If the robot is right up against the wall, about to hit, slow down and even reverse a bit (as if it turns right it will hit the wall).
+            else if(front_left_diagonal_sensor == 4 && left_sensor == 4 && front_right_sensor == 2 && front_right__diagonal_sensor == 0) {
                 if(robot->currentSpeed != -1) {
                     robot->direction = DOWN;
                 }
-            }
-            // REMOVING THIS FAILS THE FIRST TURN, BUT PASSES THAT 2ND, VICE VERSA
-//            else if(left_sensor == 4 && front_left_diagonal_sensor == 3 && front_right_sensor == 3 && front_right__diagonal_sensor == 3) {
-//                // Robot must slow down instead of turning right to not hit wall
-//                printf("down\n");
-//                if(robot->currentSpeed != 0) {
-//                    robot->direction = DOWN;
-//                }
-//            }
+            } // Robot must slow down instead of turning right to not hit wall
             else if( front_left_diagonal_sensor == 4 && front_right_sensor == 4 && front_right__diagonal_sensor == 2 && left_sensor == 4) {
-                // Robot must slow down instead of turning right to not hit wall
                 printf("right\n");
                 if(robot->currentSpeed != 0) {
                     robot->direction = DOWN;
                 }
-            } else if(front_left_diagonal_sensor == 3 && front_right_sensor == 3 && front_right__diagonal_sensor == 3 && left_sensor == 4) {
+            }  // Robot must slow down instead of turning right to not hit wall
+            else if(front_left_diagonal_sensor == 3 && front_right_sensor == 3 && front_right__diagonal_sensor == 3 && left_sensor == 4) {
                 if(robot->currentSpeed != 0) {
                     robot->direction = DOWN;
                 }
-            }
+            } // Robot must slow down instead of turning right to not hit wall
             else if(front_right__diagonal_sensor == 2 && left_sensor == 1 && front_left_diagonal_sensor == 0 && front_right_sensor == 0) {
                 printf("down\n");
                 if(robot->currentSpeed != 0) {
                     robot->direction = DOWN;
                 }
-            }
+            } // Specific set of conditions, where the robot should turn right instead of slowing down to allow it to turn in time & not hit the wall.
             else if(front_left_diagonal_sensor == 2 && front_right_sensor == 3 && front_right__diagonal_sensor == 2 && left_sensor == 1) {
                 printf("right\n");
                 robot->direction = RIGHT;
-            }
+            } // Specific set of conditions, where the robot should turn right instead of slowing down to allow it to turn in time & not hit the wall.
             else if(front_left_diagonal_sensor == 4 && left_sensor == 3 && front_right_sensor == 0 && front_right__diagonal_sensor == 0) {
                 printf("right\n");
                 robot->direction = RIGHT;
-            } else if((front_left_diagonal_sensor == 1 || front_left_diagonal_sensor == 2) && (left_sensor == 0 || left_sensor == 1)) {
+            } // If the left diag sensor detects something, but isnt too close, and the left sensor is low/off, slow down
+            else if((front_left_diagonal_sensor == 1 || front_left_diagonal_sensor == 2) && (left_sensor == 0 || left_sensor == 1)) {
                 printf("down\n");
                 if(robot->currentSpeed != 0) {
                     robot->direction = DOWN;
                 }
-            }
+            } // If sensors detect something on the front/right, but nothing on the left, turn left to avoid.
             else if(front_right_sensor == 1 && front_right__diagonal_sensor == 1 && left_sensor == 0 && front_left_diagonal_sensor == 0) {
                 printf("left\n");
                 robot->direction = LEFT;
-            }
-
+            } // If the robot is a certain distance away from the wall, and nothing is on the right, go forward
             else if(left_sensor == 4 && front_left_diagonal_sensor == 3 && (front_right_sensor == 0)  && (front_right__diagonal_sensor == 0)) {
                 printf("up\n");
                 if(robot->currentSpeed < 6) {
                    robot->direction = UP;
                 }
 
-            } else if(left_sensor == 4 && front_left_diagonal_sensor == 3 && (front_right_sensor == 1 || front_right_sensor == 2 || front_right_sensor == 3)  && (front_right__diagonal_sensor == 0 || front_right__diagonal_sensor == 1 || front_right__diagonal_sensor == 2)) {
+            } // Slow down when robot approaches wall when already very close.
+            else if(left_sensor == 4 && front_left_diagonal_sensor == 3 && (front_right_sensor == 1 || front_right_sensor == 2 || front_right_sensor == 3)  && (front_right__diagonal_sensor == 0 || front_right__diagonal_sensor == 1 || front_right__diagonal_sensor == 2)) {
                 if(robot->currentSpeed != 0) {
                         printf("WHY NO SLOW SOWBN\n");
                    robot->direction = DOWN;
                 }
-            } else if(front_right__diagonal_sensor > 2 && front_left_diagonal_sensor < 2 && front_right_sensor < 5 && left_sensor < 2) {
+            } // If the front right diagonal sensor is greater than 2 (close), and the left sensors arent too close, turn left
+            else if(front_right__diagonal_sensor > 2 && front_left_diagonal_sensor < 2 && front_right_sensor < 5 && left_sensor < 2) {
                 printf("down\n");
                 robot->direction = LEFT;
-            }
-
+            } // If the robot is too close on the left, go right
             else if(left_sensor > 3 || front_left_diagonal_sensor > 3) {
                 robot->direction = RIGHT;
                 printf("right\n");
-            }
-
+            } // If nothing is detected, turn left
             else if(left_sensor == 0 && front_left_diagonal_sensor == 0 && front_right_sensor == 0 && front_right__diagonal_sensor == 0) {
                 robot->direction = LEFT;
                 printf("left\n");
-            } else if(front_left_diagonal_sensor == 3 && front_right_sensor == 0 && left_sensor == 3) {
+            } // If the front detects nothing, but the left sensors are both 3 (most likely a corner), turn right
+            else if(front_left_diagonal_sensor == 3 && front_right_sensor == 0 && left_sensor == 3) {
+                printf("right\n");
                 robot->direction = RIGHT;
-            } else if(left_sensor == 3 && front_left_diagonal_sensor == 1 && (front_right_sensor == 0 || front_right_sensor == 1 || front_right_sensor == 2)) {
+            } // Often stuck position. If left sensor is close, front left diag is slightly far, and front sensor is close but not too close, go right.
+            else if(left_sensor == 3 && front_left_diagonal_sensor == 1 && (front_right_sensor == 0 || front_right_sensor == 1 || front_right_sensor == 2)) {
                 printf("stuck right\n");
-
                     robot->direction = RIGHT;
-
-
-            }
+            } // Enter the series of conditions for when the front sensor detects anything
             else if(front_right_sensor >= 1) {
                     printf("enter front >= 1");
+                    // If both diagonal sensors detect something, but the left detects nothing, go right (it is approaching head on.)
                     if((front_left_diagonal_sensor >= 1 ||front_right__diagonal_sensor >= 1) && left_sensor == 0) {
                         robot->direction = RIGHT;
-                    }
+                    } // If all sensors detect something, and left sensors detect something close, slow down, and turn right when still.
                     else if(left_sensor > 2 && front_left_diagonal_sensor > 1 && front_right_sensor > 0 && front_right__diagonal_sensor > 0) {
                             if(robot->currentSpeed != 0) {
                                 robot->direction = DOWN;
@@ -623,7 +600,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
                                 robot->direction = RIGHT;
                             }
 
-                    }
+                    } // If left sensors are greater than certain value, or left sensor and front sensor are specific values, alternate between slowing down & turning right.
                     else if((left_sensor >= 2 && front_left_diagonal_sensor >= 2) || (front_left_diagonal_sensor == 3 && front_right_sensor == 2)) {
 
 //                        robot->direction = RIGHT;
@@ -646,7 +623,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
                                 robot->alternator = 1;
                                 printf("alt right\n");
                         }
-                    }
+                    } // to be honest, I'm not sure if this runs or not
                      else if(robot->alternator == 1 || robot->alternator == 2) {
                             if(robot->currentSpeed != 0) {
                                 robot->direction = DOWN;
@@ -669,19 +646,23 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
                         }
 
                     }
-            } else if(left_sensor == 2 && front_left_diagonal_sensor == 0 && front_right_sensor == 0 && front_right__diagonal_sensor == 0) {
+            } // If the left sensor is a specific distance, and nothing else is detected, go right.
+            else if(left_sensor == 2 && front_left_diagonal_sensor == 0 && front_right_sensor == 0 && front_right__diagonal_sensor == 0) {
                 printf("edge case right");
                 robot->direction = RIGHT;
-            } else if(front_left_diagonal_sensor == 0 && front_right_sensor == 0 && front_right__diagonal_sensor == 0) {
+            } // If nothing else is detected, go left
+            else if(front_left_diagonal_sensor == 0 && front_right_sensor == 0 && front_right__diagonal_sensor == 0) {
                 printf("nothing else left");
                 robot->direction = LEFT;
-            } else if((front_left_diagonal_sensor == 2 && left_sensor == 3) ||(front_left_diagonal_sensor == 3 && left_sensor == 4)) {
+            } // If bot is certain distance from the wall & straight, speed up to ceratin speed
+            else if((front_left_diagonal_sensor == 2 && left_sensor == 3) ||(front_left_diagonal_sensor == 3 && left_sensor == 4)) {
                 // Can do maze 0 faster on 6, cant do maze 1 on 6
                 if(robot->currentSpeed < 5) {
                     robot->direction = UP;
                 }
 
-            } else if(front_right__diagonal_sensor > 0 && front_left_diagonal_sensor == 0 && left_sensor == 0 && front_right_sensor == 0) {
+            } // If right diag sensor detects something, but nothing else, go left.
+            else if(front_right__diagonal_sensor > 0 && front_left_diagonal_sensor == 0 && left_sensor == 0 && front_right_sensor == 0) {
                 printf("slight on right, go left\n");
                 robot->direction = LEFT;
             }

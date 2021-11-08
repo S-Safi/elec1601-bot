@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
     clock_t start_time, end_time;
     int msec;
 
-    int mazeOpt = 0;
+    int mazeOpt = 1;
 
     if(mazeOpt == 0) {
         insertAndSetFirstWall(&head, 1,  OVERALL_WINDOW_WIDTH/2, OVERALL_WINDOW_HEIGHT/2, 10, OVERALL_WINDOW_HEIGHT/2);
@@ -177,7 +177,7 @@ int main(int argc, char *argv[]) {
         // ma   ze 1 -
         // maze 5 - &robot, 640, 20, 10, 60
         // default - &robot, OVERALL_WINDOW_WIDTH, OVERALL_WINDOW_HEIGHT/2+100, 10, 100
-        if (checkRobotReachedEnd(&robot, OVERALL_WINDOW_WIDTH, OVERALL_WINDOW_HEIGHT/2+100, 10, 100)){
+        if (checkRobotReachedEnd(&robot, 640-10-320, 480, 100, 10)){
             end_time = clock();
             msec = (end_time-start_time) * 1000 / CLOCKS_PER_SEC;
             robotSuccess(&robot, msec);
