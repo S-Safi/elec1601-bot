@@ -1,7 +1,7 @@
 #include "robot.h"
 
 void setup_robot(struct Robot *robot){
-    int mazeOpt = 1;
+    int mazeOpt = 0;
     if(mazeOpt == 0) {
        robot->x = OVERALL_WINDOW_WIDTH/2-50;
         robot->y = OVERALL_WINDOW_HEIGHT-50;
@@ -14,17 +14,19 @@ void setup_robot(struct Robot *robot){
         robot->startupCounter = 0;
         robot->stillCounter = 0;
     } else if(mazeOpt == 1) {
-        robot->x = 270;
-        robot->y = 460;
-        robot->true_x = 270;
-        robot->true_y = 460;
-        robot->width = ROBOT_WIDTH;
-        robot->height = ROBOT_HEIGHT;
-        robot->direction = 0;
-        robot->angle = 0;
-        robot->currentSpeed = 0;
-        robot->crashed = 0;
-        robot->auto_mode = 0;
+        robot->x = 620;
+robot->x = 620;
+    robot->x = 0;
+    robot->y = 380;
+    robot->true_x = 0;
+    robot->true_y = 380;
+    robot->width = ROBOT_WIDTH;
+    robot->height = ROBOT_HEIGHT;
+    robot->direction = 0;
+    robot->angle = 90;
+    robot->currentSpeed = 0;
+    robot->crashed = 0;
+    robot->auto_mode = 0;
         robot->startupCounter = 0;
         robot->stillCounter = 0;
     } else if(mazeOpt == 2) {
@@ -502,34 +504,82 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
 
             if(robot->stillCounter > 1) {
                 printf("too still\n");
-                robot->direction = UP;
-                robot->stillCounter = 0;
+//                robot->direction = RIGHT;
+                        if(robot->alternator == 1 || robot->alternator == 2) {
+
+                                    robot->direction = UP;
+                                if(robot->alternator == 2) {
+                                    robot->alternator = 0;
+                                    printf("alt down2\n");
+                                } else {
+                                    robot->alternator = 2;
+                                    printf("alt down1\n");
+                                }
+                            } else {
+                                robot->direction = RIGHT;
+                                robot->alternator = 1;
+                                printf("alt right\n");
+                            }
+
+                        robot->stillCounter = 0;
+
+
             } else if(left_sensor == 3 && front_left_diagonal_sensor == 4 && front_right_sensor == 0 && front_right__diagonal_sensor == 0) {
+                printf("down\n");
                 if(robot->currentSpeed != 0) {
                     robot->direction = DOWN;
                 }
 
+            } else if(front_left_diagonal_sensor == 4 && left_sensor == 4 && front_right_sensor == 2 && front_right__diagonal_sensor == 0) {
+                if(robot->currentSpeed != -1) {
+                    robot->direction = DOWN;
+                }
+            }
+            // REMOVING THIS FAILS THE FIRST TURN, BUT PASSES THAT 2ND, VICE VERSA
+//            else if(left_sensor == 4 && front_left_diagonal_sensor == 3 && front_right_sensor == 3 && front_right__diagonal_sensor == 3) {
+//                // Robot must slow down instead of turning right to not hit wall
+//                printf("down\n");
+//                if(robot->currentSpeed != 0) {
+//                    robot->direction = DOWN;
+//                }
+//            }
+            else if( front_left_diagonal_sensor == 4 && front_right_sensor == 4 && front_right__diagonal_sensor == 2 && left_sensor == 4) {
+                // Robot must slow down instead of turning right to not hit wall
+                printf("right\n");
+                if(robot->currentSpeed != 0) {
+                    robot->direction = DOWN;
+                }
+            } else if(front_left_diagonal_sensor == 3 && front_right_sensor == 3 && front_right__diagonal_sensor == 3 && left_sensor == 4) {
+                if(robot->currentSpeed != 0) {
+                    robot->direction = DOWN;
+                }
             }
             else if(front_right__diagonal_sensor == 2 && left_sensor == 1 && front_left_diagonal_sensor == 0 && front_right_sensor == 0) {
+                printf("down\n");
                 if(robot->currentSpeed != 0) {
                     robot->direction = DOWN;
                 }
             }
             else if(front_left_diagonal_sensor == 2 && front_right_sensor == 3 && front_right__diagonal_sensor == 2 && left_sensor == 1) {
+                printf("right\n");
                 robot->direction = RIGHT;
             }
             else if(front_left_diagonal_sensor == 4 && left_sensor == 3 && front_right_sensor == 0 && front_right__diagonal_sensor == 0) {
+                printf("right\n");
                 robot->direction = RIGHT;
             } else if((front_left_diagonal_sensor == 1 || front_left_diagonal_sensor == 2) && (left_sensor == 0 || left_sensor == 1)) {
+                printf("down\n");
                 if(robot->currentSpeed != 0) {
                     robot->direction = DOWN;
                 }
             }
             else if(front_right_sensor == 1 && front_right__diagonal_sensor == 1 && left_sensor == 0 && front_left_diagonal_sensor == 0) {
+                printf("left\n");
                 robot->direction = LEFT;
             }
 
             else if(left_sensor == 4 && front_left_diagonal_sensor == 3 && (front_right_sensor == 0)  && (front_right__diagonal_sensor == 0)) {
+                printf("up\n");
                 if(robot->currentSpeed < 6) {
                    robot->direction = UP;
                 }
@@ -540,6 +590,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
                    robot->direction = DOWN;
                 }
             } else if(front_right__diagonal_sensor > 2 && front_left_diagonal_sensor < 2 && front_right_sensor < 5 && left_sensor < 2) {
+                printf("down\n");
                 robot->direction = LEFT;
             }
 
@@ -591,12 +642,9 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
                                 robot->alternator = 0;
                             }
                         } else {
-
                                 robot->direction = RIGHT;
                                 robot->alternator = 1;
                                 printf("alt right\n");
-
-
                         }
                     }
                      else if(robot->alternator == 1 || robot->alternator == 2) {

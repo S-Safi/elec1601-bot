@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
     clock_t start_time, end_time;
     int msec;
 
-    int mazeOpt = 1;
+    int mazeOpt = 0;
 
     if(mazeOpt == 0) {
         insertAndSetFirstWall(&head, 1,  OVERALL_WINDOW_WIDTH/2, OVERALL_WINDOW_HEIGHT/2, 10, OVERALL_WINDOW_HEIGHT/2);
@@ -47,28 +47,28 @@ int main(int argc, char *argv[]) {
         insertAndSetFirstWall(&head, 12,  OVERALL_WINDOW_WIDTH/2+200, OVERALL_WINDOW_HEIGHT/2+100, OVERALL_WINDOW_WIDTH/2-100, 10);
     } else if(mazeOpt == 1) {
         //Maze Design 1
-            insertAndSetFirstWall(&head, 2,  220, 400, 10, 80);
-    insertAndSetFirstWall(&head, 2,  20, 400, 200, 10);
-    insertAndSetFirstWall(&head, 2,  20, 50, 10, 350);
-    insertAndSetFirstWall(&head, 2,  20, 50, 280, 10);
-    insertAndSetFirstWall(&head, 2,  300, 50, 10, 100);
-    insertAndSetFirstWall(&head, 2,  300, 150, 110, 10);
-    insertAndSetFirstWall(&head, 2,  400, 50, 10, 100);
-    insertAndSetFirstWall(&head, 2,  400, 50, 220, 10);
-    insertAndSetFirstWall(&head, 2,  620, 50, 10, 290);
-    insertAndSetFirstWall(&head, 2,  620, 340, 20, 10);
+    insertAndSetFirstWall(&head, 2,  640-10-220, 400, 10, 80);
+    insertAndSetFirstWall(&head, 2,  640-200-20, 400, 200, 10);
+    insertAndSetFirstWall(&head, 2,  640-10-20, 50, 10, 350);
+    insertAndSetFirstWall(&head, 2,  640-280-20, 50, 280, 10);
+    insertAndSetFirstWall(&head, 2,  640-10-300, 50, 10, 100);
+    insertAndSetFirstWall(&head, 2,  640-110-300, 150, 110, 10);
+    insertAndSetFirstWall(&head, 2,  640-10-400, 50, 10, 100);
+    insertAndSetFirstWall(&head, 2,  640-400-220, 50, 220, 10);
+    insertAndSetFirstWall(&head, 2,  640-10-620, 50, 10, 290);
+    insertAndSetFirstWall(&head, 2,  640-620-20, 340, 20, 10);
 
-    insertAndSetFirstWall(&head, 1,  320, 300, 10, 180);
-    insertAndSetFirstWall(&head, 2,  120, 300, 200, 10);
-    insertAndSetFirstWall(&head, 2,  120, 150, 10, 150);
-    insertAndSetFirstWall(&head, 2,  120, 150, 80, 10);
-    insertAndSetFirstWall(&head, 2,  200, 150, 10, 100);
-    insertAndSetFirstWall(&head, 2,  200, 250, 310, 10);
-    insertAndSetFirstWall(&head, 2,  500, 150, 10, 100);
-    insertAndSetFirstWall(&head, 2,  500, 150, 10, 100);
-    insertAndSetFirstWall(&head, 2,  500, 150, 20, 10);
-    insertAndSetFirstWall(&head, 2,  520, 150, 10, 290);
-    insertAndSetFirstWall(&head, 2,  520, 440, 120, 10);
+
+    insertAndSetFirstWall(&head, 1,  640-10-320, 300, 10, 180);
+    insertAndSetFirstWall(&head, 2,  640-200-120, 300, 200, 10);
+    insertAndSetFirstWall(&head, 2,  640-10-120, 150, 10, 150);
+    insertAndSetFirstWall(&head, 2,  640-80-120, 150, 80, 10);
+    insertAndSetFirstWall(&head, 2,  640-10-200, 150, 10, 100);
+    insertAndSetFirstWall(&head, 2,  640-310-200, 250, 310, 10);
+    insertAndSetFirstWall(&head, 2,  640-10-500, 150, 10, 100);
+    insertAndSetFirstWall(&head, 2,  640-20-500, 150, 20, 10);
+    insertAndSetFirstWall(&head, 2,  640-10-520, 150, 10, 290);
+    insertAndSetFirstWall(&head, 2,  640-120-520, 440, 120, 10);
     } else if(mazeOpt == 2) {
         // Maze Design 2
     insertAndSetFirstWall(&head, 2,  220, 400, 10, 80);
