@@ -1,7 +1,7 @@
 #include "robot.h"
 
 void setup_robot(struct Robot *robot){
-    int mazeOpt = 1;
+    int mazeOpt = 0;
     if(mazeOpt == 0) {
        robot->x = OVERALL_WINDOW_WIDTH/2-50;
         robot->y = OVERALL_WINDOW_HEIGHT-50;
@@ -670,134 +670,6 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
 
         }
 
-
-
-
-//
-//
-//
-//
-//    if(front_right_sensor >= 1) {
-//        robot->currentSpeed -= DEFAULT_SPEED_CHANGE * 0.6;
-//        printf("slow down\n");
-//    }
-//
-//
-//
-//
-//    if(robot->currentSpeed <= 4) {
-////        robot->currentSpeed + 0.6;
-////        robot->angle = (int)(robot->angle-DEFAULT_ANGLE_CHANGE * 0.4)%360;
-//
-//        printf("Startin");
-//    }
-//
-//    // Turn right and slow down
-//    else if(front_right_sensor > 0 || front_left_diagonal_sensor > 2 && left_sensor > 1) {
-//
-//        //robot->angle = (robot->angle+DEFAULT_ANGLE_CHANGE)%360;
-//        robot->direction = RIGHT;
-//        //robot->currentSpeed = 3;
-//        if(robot->currentSpeed > 0) {
-//            robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
-//        } else {
-//            robot->currentSpeed += DEFAULT_SPEED_CHANGE;
-//        }
-//        printf("Turn right & Slow down\n");
-//
-//    }
-//
-//    // Turn right and slow down
-//    else if(front_right_sensor > 0 || front_left_diagonal_sensor > 2 && left_sensor >= 0) {
-//
-//        //robot->angle = (robot->angle+DEFAULT_ANGLE_CHANGE)%360;
-//        robot->direction = RIGHT;
-//        //robot->currentSpeed = 3;
-//        if(robot->currentSpeed > 0) {
-//            robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
-//        } else {
-//            robot->currentSpeed += DEFAULT_SPEED_CHANGE;
-//        }
-//        printf("Turn right & Slow down\n");
-//
-//    }
-//
-//    else if((left_sensor == 1 || left_sensor == 1) && front_left_diagonal_sensor > 0 && front_right_sensor == 0 && front_right__diagonal_sensor == 0) {
-//        robot->direction = UP;
-//        printf("up");
-//    }
-//
-//    else if(front_left_diagonal_sensor > 1 && front_right__diagonal_sensor > 1 && front_right_sensor == 0) {
-//        robot->direction = UP;
-//        printf("Go straight\n");
-//    }
-//
-//
-//
-//    // Turn right if getting too close on left
-//    else if(front_left_diagonal_sensor == 1) {
-//        if(robot->currentSpeed < 8) {
-//            robot->currentSpeed += DEFAULT_SPEED_CHANGE;
-//        }
-//        robot->direction = RIGHT;
-//        printf("right with speed increase\n");
-//    }
-//
-//    else if(front_right__diagonal_sensor > 0) {
-//        robot->direction = LEFT;
-//        robot->currentSpeed--;
-//        printf("left");
-//    }
-//
-//    else if(front_right_sensor <= 1 && front_right__diagonal_sensor <= 1 && front_left_diagonal_sensor <= 1 && left_sensor <= 2) {
-//        robot->direction = LEFT;
-//        printf("nothing ahead left");
-//    }
-//
-//            // Turn left and slow down but not as much
-//    else if ((front_right_sensor == 0 && front_left_diagonal_sensor == 0) && left_sensor < 1) {
-//        if (robot->currentSpeed < 2) {
-//            robot->currentSpeed += DEFAULT_SPEED_CHANGE;
-//        }
-//        //robot->angle = (robot->angle-DEFAULT_ANGLE_CHANGE)%360;
-////        if(robot->currentSpeed < 10) {
-////            robot->currentSpeed += DEFAULT_SPEED_CHANGE;
-////        } else {
-////            robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
-////        }
-//        //robot->currentSpeed = 10;
-//        robot->direction = LEFT;
-//        printf("turn left\n");
-//    }
-//
-//
-//
-//    if(front_right_sensor > 1 && front_right__diagonal_sensor > 1 && front_left_diagonal_sensor < 2 && left_sensor <= 2) {
-//        robot->direction = LEFT;
-//
-//    }
-//
-//    // Zoom if on a straigh
-//    if((front_left_diagonal_sensor == 2 && front_right_sensor == 0 && front_right__diagonal_sensor == 0) || (front_left_diagonal_sensor == 1 && front_right_sensor == 0 && front_right__diagonal_sensor == 0)) {
-//        //robot->currentSpeed = 13;
-//        if(robot->currentSpeed < 8) {
-//            robot->currentSpeed += DEFAULT_SPEED_CHANGE;
-//        } else {
-//            robot->currentSpeed -= DEFAULT_SPEED_CHANGE;
-//        }
-//        printf("go faster\n");
-//    }
-//
-//
-//
-//    if(left_sensor > 3) {
-//        robot->direction = RIGHT;
-//        printf("wall very close left\n");
-//    }
-//
-//        if(front_left_diagonal_sensor == 1) {
-//        robot->angle = 0;
-//    }
 
 
 }
