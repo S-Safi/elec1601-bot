@@ -1,0 +1,98 @@
+WHILE has not won
+  BEGIN robotAutoMotorMove (robot, front_right_sensor, front_right__diagonal_sensor front_left_diagonal_sensor, left_sensor)
+    IF current speed is zero
+    Add to still counter
+    IF Startup counter is less than 5
+      IF Startup counter / 2 is 1
+        Set robot direction to left
+        Increment startup counter
+      ELSE
+        Set robot direction to up
+        Increment startup counter
+    ELSE
+      IF robot still counter is greater than 1
+        IF robot alternator equals 1 or 2
+          Set robot direction to up
+          IF robot alternator equals 2
+            Set alternator to 0
+          ELSE
+            Set alternator to 2
+          ELSE
+            Set robot direction to right
+            Set alternator to 1
+          Set robot stil counter to 0
+    ELSE IF left sensor is 3 and left diag is 4 and front is 0 and right diag is 0
+      IF robot current speed isn’t 0
+        Set robot direction to down
+    ELSE IF left diag is 4 and left sensor is 4 and front is 2 right diag is 0
+      IF robot current speed isn’t -1
+        Set robot direction to down
+    ELSE IF left diag is 4 and front is 4 and right diag is 2 and left is 4
+      IF robot current speed isn’t 0
+        Set robot direction to down
+    ELSE IF left diag is 3 and front is 3 and right diag is 3 and left is 4
+      IF robot current speed isn’t 0
+        Set robot direction to down
+    ELSE IF right diag is 2 and left is 1 and left diag is 0 and front is 0
+      IF robot current speed isn’t 0
+        Set robot direction to down
+    ELSE IF left diag is 2 and front is 3 and right diag is 2 and left is 1
+      Set robot direction to right
+    ELSE IF left diag is 4 and left is 3 and front is 0 and right diag is 0
+      Set robot direction to right
+    ELSE IF left diag = 1 or 2 and left is 0 or 1
+      IF robot current speed isn’t 0
+        Set robot direction to down
+    ELSE IF front is 1 and right diag is 1 and left is 0 and left diag is 0
+      Set robot direction to left
+    ELSE IF left is 4 and left diag is 3 and front is 1 or 2 or 3 and right diag is 0 or 1 or 2
+      IF robot current speed isn’t 0
+        Set robot direction to down
+    ELSE IF right diag is > 2 and left diag is < 2 and front is < 5 and left is < 2
+      Set robot direction to left
+    ELSE IF left is > 3 or left diag is > 3
+      Set robot direction to right
+    ELSE IF left is 0 and left diag is 0 and front is 0 and right diag is 0
+      Set robot direction to left
+    ELSE IF left diag is 3 and front is 0 and left is 2
+      Set robot direction to right
+    ELSE IF left is 3 and left diag is 1 and front is 0 or 1 or 2
+      Set robot direction to right
+    ELSE IF front >= 1
+      IF left > 2 and left diag > 1 and front > 0 and right diag > 0
+        IF robot current speed isn’t 0
+          Set robot direction to down
+        ELSE
+          Set robot direction to right
+      ELSE IF (left >= 2 and left diag >= 2) or (left diag is 3 and front is 2)
+        IF robot alternator is 1 or 2
+          IF robot current speed isn’t 0
+            Set robot direction to down
+            IF robot alternator is 2
+              Set alternator to 0
+            ELSE
+              Set alternator to 2
+          ELSE
+            Set alternator to 0
+        ELSE
+          Set robot direction to right
+          Set alternator to 1
+    ELSE IF left is 2 and left diag is 0 and front is 0 and right diag is 0
+      Set robot direction to right
+    ELSE IF left diag is 0 and front is 0 and right diag is 0
+      Set robot direction to left
+    ELSE IF (left diag is 2 and left is 3) or (left diag is 3 and left is 4)
+      IF robot current speed is less than 5
+        Set robot direction to up
+    ELSE IF right diag > 0 and left diag = 0 and left = 0 and front = 0
+      Set robot direction to left
+
+
+
+
+
+
+
+
+
+    

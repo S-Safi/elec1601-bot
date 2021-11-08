@@ -457,23 +457,12 @@ void robotMotorMove(struct Robot * robot) {
 }
 
 void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_right__diagonal_sensor, int front_left_diagonal_sensor, int left_sensor) {
-    // Might need to tone down speeds and turns for it to be "road legal" ok these dont work anymore but idk
-    // 17,3,8
-    // 13,4,8
-    // NEED TO INCREMENT SPEEDS FOR IT TO BE LEGAL
-
-    // possible option. have robot stop on each corner, rotate until sensors are right, then continue
-
 
     if(robot->currentSpeed == 0) {
         robot->stillCounter++;
     }
 
-
-
-
     if(robot->startupCounter < 5 ) {
-
 
         // Robot Startup. When the robot begins, it will do a short period of going forward, with a left turn every 3 ticks. It does this for 4 ticks. (ie it does 3 UPs and 1 LEFT.)
         if((robot->startupCounter % 2) == 1) {
@@ -559,7 +548,6 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
                 if(robot->currentSpeed < 6) {
                    robot->direction = UP;
                 }
-
             } // Slow down when robot approaches wall when already very close.
             else if(left_sensor == 4 && front_left_diagonal_sensor == 3 && (front_right_sensor == 1 || front_right_sensor == 2 || front_right_sensor == 3)  && (front_right__diagonal_sensor == 0 || front_right__diagonal_sensor == 1 || front_right__diagonal_sensor == 2)) {
                 if(robot->currentSpeed != 0) {
