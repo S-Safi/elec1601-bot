@@ -86,13 +86,5 @@ WHILE has not won
         Set robot direction to up
     ELSE IF right diag > 0 and left diag = 0 and left = 0 and front = 0
       Set robot direction to left
-
-
-
-
-
-
-
-
-
-    
+  END robotAutoMotorMove
+EXIT WHILE
