@@ -1,54 +1,23 @@
 #include "robot.h"
 
 void setup_robot(struct Robot *robot){
-    int mazeOpt = 0;
-    if(mazeOpt == 0) {
-       robot->x = OVERALL_WINDOW_WIDTH/2-50;
-        robot->y = OVERALL_WINDOW_HEIGHT-50;
-        robot->true_x = OVERALL_WINDOW_WIDTH/2-50;
-        robot->true_y = OVERALL_WINDOW_HEIGHT-50;
-        robot->width = ROBOT_WIDTH;
-        robot->height = ROBOT_HEIGHT;
-        robot->direction = 0;
-        robot->angle = 0;
-        robot->startupCounter = 0;
-        robot->stillCounter = 0;
-    } else if(mazeOpt == 1) {
-        robot->x = 620;
-robot->x = 620;
-    robot->x = 0;
-    robot->y = 380;
-    robot->true_x = 0;
-    robot->true_y = 380;
-    robot->width = ROBOT_WIDTH;
-    robot->height = ROBOT_HEIGHT;
-    robot->direction = 0;
-    robot->angle = 90;
-    robot->currentSpeed = 0;
-    robot->crashed = 0;
-    robot->auto_mode = 0;
-        robot->startupCounter = 0;
-        robot->stillCounter = 0;
-    } else if(mazeOpt == 2) {
-        robot->x = 620;
-    robot->y = 380;
-    robot->true_x = 620;
-    robot->true_y = 380;
-    robot->width = ROBOT_WIDTH;
-    robot->height = ROBOT_HEIGHT;
-    robot->direction = 0;
-    robot->angle = 270;
-    robot->currentSpeed = 0;
-    robot->crashed = 0;
-    robot->auto_mode = 0;
-    robot->startupCounter = 0;
-        robot->stillCounter = 0;
-    } else if(mazeOpt == 3) {
-        //Maze 5
 
-    robot->x = 170;
+//        // default
+//       robot->x = OVERALL_WINDOW_WIDTH/2-50;
+//        robot->y = OVERALL_WINDOW_HEIGHT-50;
+//        robot->true_x = OVERALL_WINDOW_WIDTH/2-50;
+//        robot->true_y = OVERALL_WINDOW_HEIGHT-50;
+//        robot->width = ROBOT_WIDTH;
+//        robot->height = ROBOT_HEIGHT;
+//        robot->direction = 0;
+//        robot->angle = 0;
+//        robot->startupCounter = 0;
+//        robot->stillCounter = 0;
+
+     //maze 1
+    robot->x = 270;
     robot->y = 460;
-    robot->true_x = 170;
+    robot->true_x = 270;
     robot->true_y = 460;
     robot->width = ROBOT_WIDTH;
     robot->height = ROBOT_HEIGHT;
@@ -57,9 +26,24 @@ robot->x = 620;
     robot->currentSpeed = 0;
     robot->crashed = 0;
     robot->auto_mode = 0;
+        robot->startupCounter = 0;
+        robot->stillCounter = 0;
 
-    printf("Press arrow keys to move manually, or enter to move automatically\n\n");
-}
+
+//        //Maze 5
+//
+//    robot->x = 170;
+//    robot->y = 460;
+//    robot->true_x = 170;
+//    robot->true_y = 460;
+//    robot->width = ROBOT_WIDTH;
+//    robot->height = ROBOT_HEIGHT;
+//    robot->direction = 0;
+//    robot->angle = 0;
+//    robot->currentSpeed = 0;
+//    robot->crashed = 0;
+//    robot->auto_mode = 0;
+
 
 
     robot->currentSpeed = 0;
@@ -551,7 +535,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_right_sensor, int front_
             } // Slow down when robot approaches wall when already very close.
             else if(left_sensor == 4 && front_left_diagonal_sensor == 3 && (front_right_sensor == 1 || front_right_sensor == 2 || front_right_sensor == 3)  && (front_right__diagonal_sensor == 0 || front_right__diagonal_sensor == 1 || front_right__diagonal_sensor == 2)) {
                 if(robot->currentSpeed != 0) {
-                        printf("WHY NO SLOW SOWBN\n");
+                        printf("slow down\n");
                    robot->direction = DOWN;
                 }
             } // If the front right diagonal sensor is greater than 2 (close), and the left sensors arent too close, turn left
